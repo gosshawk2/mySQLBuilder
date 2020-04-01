@@ -32,6 +32,12 @@ Partial Class SQLBuilder
         Me.btnRefresh = New System.Windows.Forms.Button()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.txtDatasetName = New System.Windows.Forms.TextBox()
+        Me.lstFields = New System.Windows.Forms.ListBox()
+        Me.btnMoveUP = New System.Windows.Forms.Button()
+        Me.btnMoveDOWN = New System.Windows.Forms.Button()
+        Me.btnSelectFields = New System.Windows.Forms.Button()
+        Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
+        Me.Label2 = New System.Windows.Forms.Label()
         CType(Me.dgvFieldSelection, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -41,14 +47,14 @@ Partial Class SQLBuilder
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.gbTOP.Location = New System.Drawing.Point(1, 0)
         Me.gbTOP.Name = "gbTOP"
-        Me.gbTOP.Size = New System.Drawing.Size(565, 52)
+        Me.gbTOP.Size = New System.Drawing.Size(924, 43)
         Me.gbTOP.TabIndex = 0
         Me.gbTOP.TabStop = False
         '
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(204, 54)
+        Me.Label3.Location = New System.Drawing.Point(204, 50)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(63, 13)
         Me.Label3.TabIndex = 13
@@ -56,7 +62,7 @@ Partial Class SQLBuilder
         '
         'txtTablename
         '
-        Me.txtTablename.Location = New System.Drawing.Point(269, 51)
+        Me.txtTablename.Location = New System.Drawing.Point(269, 47)
         Me.txtTablename.Name = "txtTablename"
         Me.txtTablename.Size = New System.Drawing.Size(100, 20)
         Me.txtTablename.TabIndex = 12
@@ -69,25 +75,26 @@ Partial Class SQLBuilder
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.dgvFieldSelection.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.dgvFieldSelection.Location = New System.Drawing.Point(12, 94)
+        Me.dgvFieldSelection.MinimumSize = New System.Drawing.Size(0, 170)
         Me.dgvFieldSelection.Name = "dgvFieldSelection"
-        Me.dgvFieldSelection.Size = New System.Drawing.Size(456, 585)
+        Me.dgvFieldSelection.Size = New System.Drawing.Size(469, 278)
         Me.dgvFieldSelection.TabIndex = 11
         '
         'btnSelectionToQuery
         '
-        Me.btnSelectionToQuery.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnSelectionToQuery.Location = New System.Drawing.Point(12, 691)
+        Me.btnSelectionToQuery.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnSelectionToQuery.Location = New System.Drawing.Point(654, 306)
         Me.btnSelectionToQuery.Name = "btnSelectionToQuery"
-        Me.btnSelectionToQuery.Size = New System.Drawing.Size(227, 23)
+        Me.btnSelectionToQuery.Size = New System.Drawing.Size(169, 23)
         Me.btnSelectionToQuery.TabIndex = 10
-        Me.btnSelectionToQuery.Text = "Add Selection to Query"
+        Me.btnSelectionToQuery.Text = "Add List to Query"
         Me.btnSelectionToQuery.UseVisualStyleBackColor = True
         '
         'Label4
         '
-        Me.Label4.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.Label4.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(9, 729)
+        Me.Label4.Location = New System.Drawing.Point(508, 344)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(62, 13)
         Me.Label4.TabIndex = 9
@@ -95,17 +102,16 @@ Partial Class SQLBuilder
         '
         'txtSQLQuery
         '
-        Me.txtSQLQuery.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.txtSQLQuery.Location = New System.Drawing.Point(94, 729)
+        Me.txtSQLQuery.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.txtSQLQuery.Location = New System.Drawing.Point(576, 336)
         Me.txtSQLQuery.Multiline = True
         Me.txtSQLQuery.Name = "txtSQLQuery"
-        Me.txtSQLQuery.Size = New System.Drawing.Size(374, 45)
+        Me.txtSQLQuery.Size = New System.Drawing.Size(312, 45)
         Me.txtSQLQuery.TabIndex = 8
         '
         'btnRefresh
         '
-        Me.btnRefresh.Location = New System.Drawing.Point(388, 50)
+        Me.btnRefresh.Location = New System.Drawing.Point(398, 47)
         Me.btnRefresh.Name = "btnRefresh"
         Me.btnRefresh.Size = New System.Drawing.Size(80, 23)
         Me.btnRefresh.TabIndex = 14
@@ -115,7 +121,7 @@ Partial Class SQLBuilder
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(11, 54)
+        Me.Label1.Location = New System.Drawing.Point(11, 50)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(78, 13)
         Me.Label1.TabIndex = 16
@@ -123,16 +129,83 @@ Partial Class SQLBuilder
         '
         'txtDatasetName
         '
-        Me.txtDatasetName.Location = New System.Drawing.Point(89, 51)
+        Me.txtDatasetName.Location = New System.Drawing.Point(89, 47)
         Me.txtDatasetName.Name = "txtDatasetName"
         Me.txtDatasetName.Size = New System.Drawing.Size(100, 20)
         Me.txtDatasetName.TabIndex = 15
+        '
+        'lstFields
+        '
+        Me.lstFields.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lstFields.FormattingEnabled = True
+        Me.lstFields.Location = New System.Drawing.Point(654, 94)
+        Me.lstFields.MinimumSize = New System.Drawing.Size(0, 170)
+        Me.lstFields.Name = "lstFields"
+        Me.lstFields.Size = New System.Drawing.Size(169, 160)
+        Me.lstFields.TabIndex = 17
+        '
+        'btnMoveUP
+        '
+        Me.btnMoveUP.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnMoveUP.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnMoveUP.Location = New System.Drawing.Point(849, 95)
+        Me.btnMoveUP.Name = "btnMoveUP"
+        Me.btnMoveUP.Size = New System.Drawing.Size(39, 33)
+        Me.btnMoveUP.TabIndex = 18
+        Me.btnMoveUP.Text = "▲"
+        Me.btnMoveUP.UseVisualStyleBackColor = True
+        '
+        'btnMoveDOWN
+        '
+        Me.btnMoveDOWN.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnMoveDOWN.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnMoveDOWN.Location = New System.Drawing.Point(849, 135)
+        Me.btnMoveDOWN.Name = "btnMoveDOWN"
+        Me.btnMoveDOWN.Size = New System.Drawing.Size(39, 31)
+        Me.btnMoveDOWN.TabIndex = 19
+        Me.btnMoveDOWN.Text = "▼"
+        Me.btnMoveDOWN.UseVisualStyleBackColor = True
+        '
+        'btnSelectFields
+        '
+        Me.btnSelectFields.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnSelectFields.Location = New System.Drawing.Point(510, 94)
+        Me.btnSelectFields.Name = "btnSelectFields"
+        Me.btnSelectFields.Size = New System.Drawing.Size(110, 23)
+        Me.btnSelectFields.TabIndex = 20
+        Me.btnSelectFields.Text = "Select Fields ->"
+        Me.btnSelectFields.UseVisualStyleBackColor = True
+        '
+        'StatusStrip1
+        '
+        Me.StatusStrip1.Location = New System.Drawing.Point(0, 454)
+        Me.StatusStrip1.Name = "StatusStrip1"
+        Me.StatusStrip1.Size = New System.Drawing.Size(926, 22)
+        Me.StatusStrip1.TabIndex = 21
+        Me.StatusStrip1.Text = "StatusStrip1"
+        '
+        'Label2
+        '
+        Me.Label2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label2.AutoSize = True
+        Me.Label2.Location = New System.Drawing.Point(511, 76)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(252, 13)
+        Me.Label2.TabIndex = 22
+        Me.Label2.Text = "Highlight item in list to move up or down with arrows:"
         '
         'SQLBuilder
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(567, 783)
+        Me.ClientSize = New System.Drawing.Size(926, 476)
+        Me.Controls.Add(Me.Label2)
+        Me.Controls.Add(Me.StatusStrip1)
+        Me.Controls.Add(Me.btnSelectFields)
+        Me.Controls.Add(Me.btnMoveDOWN)
+        Me.Controls.Add(Me.btnMoveUP)
+        Me.Controls.Add(Me.lstFields)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.txtDatasetName)
         Me.Controls.Add(Me.btnRefresh)
@@ -143,7 +216,7 @@ Partial Class SQLBuilder
         Me.Controls.Add(Me.Label4)
         Me.Controls.Add(Me.txtSQLQuery)
         Me.Controls.Add(Me.gbTOP)
-        Me.MinimumSize = New System.Drawing.Size(580, 325)
+        Me.MinimumSize = New System.Drawing.Size(580, 515)
         Me.Name = "SQLBuilder"
         Me.Text = "SQL Builder"
         CType(Me.dgvFieldSelection, System.ComponentModel.ISupportInitialize).EndInit()
@@ -162,4 +235,10 @@ Partial Class SQLBuilder
     Friend WithEvents btnRefresh As Button
     Friend WithEvents Label1 As Label
     Friend WithEvents txtDatasetName As TextBox
+    Friend WithEvents lstFields As ListBox
+    Friend WithEvents btnMoveUP As Button
+    Friend WithEvents btnMoveDOWN As Button
+    Friend WithEvents btnSelectFields As Button
+    Friend WithEvents StatusStrip1 As StatusStrip
+    Friend WithEvents Label2 As Label
 End Class

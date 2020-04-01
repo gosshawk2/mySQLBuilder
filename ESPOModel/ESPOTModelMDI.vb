@@ -22,7 +22,7 @@
             End If
         Catch ex As Exception
 
-            If GlobalSession.CurrentUserShort = "agl015" Or GlobalSession.CurrentUserShort = "ddg407" Then
+            If GlobalSession.CurrentUserShort = "agl015" Or GlobalSession.CurrentUserShort = "ddg407" Or GlobalSession.CurrentUserShort = "PC" Then
                 'Dim MS As ModeSelect
                 'GlobalSession.CurrentMode = MS.GetParms()
                 ModeSelect.ShowDialog()

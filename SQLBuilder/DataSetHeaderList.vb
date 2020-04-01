@@ -89,7 +89,7 @@
         App.txtDatasetName.Text = DataSetName
         App.Left = 5
         App.Height = 5
-        App.Width = 580
+        App.Width = 938
         App.Height = 830
         App.Show()
         'stsFW100Label1.Text = ""

@@ -64,15 +64,13 @@
         SelectPart = "SELECT "
         FieldsSelected = ""
         TableName = txtTablename.Text
-        For i As Integer = 0 To dgvFieldSelection.Rows.Count - 1
-            If dgvFieldSelection.Rows(i).Cells("SelectField").Value = True Then
-                ColumnName = dgvFieldSelection.Rows(i).Cells("Column Name").Value
-                'SelectedTableName = dgvFieldSelection.Rows(i).Cells("TableName").Value
-                If FieldsSelected = "" Then
-                    FieldsSelected += Trim(ColumnName)
-                Else
-                    FieldsSelected += "," & Trim(ColumnName)
-                End If
+        For i As Integer = 0 To lstFields.Items.Count - 1
+            ColumnName = lstFields.Items(i)
+            'SelectedTableName = dgvFieldSelection.Rows(i).Cells("TableName").Value
+            If FieldsSelected = "" Then
+                FieldsSelected += Trim(ColumnName)
+            Else
+                FieldsSelected += "," & Trim(ColumnName)
             End If
         Next
         SelectPart += FieldsSelected & " FROM " & TableName
@@ -110,5 +108,70 @@
 
         PopulateForm(Me.TheDataSetID)
         txtSQLQuery.Text = ""
+        lstFields.Items.Clear()
+
+    End Sub
+
+    Sub SelectFields()
+        Dim ColumnName As String
+        Dim ColumnText As String
+
+        For i As Integer = 0 To dgvFieldSelection.Rows.Count - 1
+            If dgvFieldSelection.Rows(i).Cells("SelectField").Value = True Then
+                ColumnName = dgvFieldSelection.Rows(i).Cells("Column Name").Value
+                ColumnText = dgvFieldSelection.Rows(i).Cells("Column Text").Value
+                lstFields.Items.Add(ColumnName)
+            End If
+        Next
+    End Sub
+
+    Sub MoveItemUp()
+        Dim CurrentIDX As Integer
+        Dim strCurrentItem As String
+        Dim NewIDX As Integer
+
+
+        CurrentIDX = lstFields.SelectedIndex
+
+        If CurrentIDX > 0 Then
+            strCurrentItem = lstFields.Items(CurrentIDX)
+            NewIDX = CurrentIDX - 1
+            lstFields.Items.RemoveAt(CurrentIDX)
+            lstFields.Items.Insert(NewIDX, strCurrentItem)
+            lstFields.SelectedIndex = NewIDX
+
+        End If
+
+    End Sub
+
+    Sub MoveItemDown()
+        Dim CurrentIDX As Integer
+        Dim strCurrentItem As String
+        Dim NewIDX As Integer
+
+        CurrentIDX = lstFields.SelectedIndex
+
+        If CurrentIDX < lstFields.Items.Count - 1 And CurrentIDX > -1 Then
+            strCurrentItem = lstFields.Items(CurrentIDX)
+            NewIDX = CurrentIDX + 1
+            lstFields.Items.RemoveAt(CurrentIDX)
+            lstFields.Items.Insert(NewIDX, strCurrentItem)
+            lstFields.SelectedIndex = NewIDX
+        End If
+    End Sub
+
+    Private Sub btnSelectFields_Click(sender As Object, e As EventArgs) Handles btnSelectFields.Click
+        SelectFields()
+
+    End Sub
+
+    Private Sub btnMoveUP_Click(sender As Object, e As EventArgs) Handles btnMoveUP.Click
+        MoveItemUp()
+
+    End Sub
+
+    Private Sub btnMoveDOWN_Click(sender As Object, e As EventArgs) Handles btnMoveDOWN.Click
+        MoveItemDown()
+
     End Sub
 End Class

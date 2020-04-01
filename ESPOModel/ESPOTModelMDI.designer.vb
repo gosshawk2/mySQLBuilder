@@ -31,6 +31,7 @@ Partial Class ESPOTModelMDI
         Me.ApplicationsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.AuthorisationToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.NotesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SQLBuilderToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.WindowToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.TileHorizontalToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.TileVerticalToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -48,7 +49,6 @@ Partial Class ESPOTModelMDI
         Me.stsFW100Label4 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.stsFW100Label5 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.stsFW100Label6 = New System.Windows.Forms.ToolStripStatusLabel()
-        Me.SQLBuilderToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.tls1.SuspendLayout()
         Me.stsFWMainMenu.SuspendLayout()
@@ -86,32 +86,38 @@ Partial Class ESPOTModelMDI
         'GroupListToolStripMenuItem
         '
         Me.GroupListToolStripMenuItem.Name = "GroupListToolStripMenuItem"
-        Me.GroupListToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.GroupListToolStripMenuItem.Size = New System.Drawing.Size(146, 22)
         Me.GroupListToolStripMenuItem.Text = "Group List"
         '
         'UsersToolStripMenuItem
         '
         Me.UsersToolStripMenuItem.Name = "UsersToolStripMenuItem"
-        Me.UsersToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.UsersToolStripMenuItem.Size = New System.Drawing.Size(146, 22)
         Me.UsersToolStripMenuItem.Text = "Users"
         '
         'ApplicationsToolStripMenuItem
         '
         Me.ApplicationsToolStripMenuItem.Name = "ApplicationsToolStripMenuItem"
-        Me.ApplicationsToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.ApplicationsToolStripMenuItem.Size = New System.Drawing.Size(146, 22)
         Me.ApplicationsToolStripMenuItem.Text = "Applications"
         '
         'AuthorisationToolStripMenuItem
         '
         Me.AuthorisationToolStripMenuItem.Name = "AuthorisationToolStripMenuItem"
-        Me.AuthorisationToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.AuthorisationToolStripMenuItem.Size = New System.Drawing.Size(146, 22)
         Me.AuthorisationToolStripMenuItem.Text = "Authorisation"
         '
         'NotesToolStripMenuItem
         '
         Me.NotesToolStripMenuItem.Name = "NotesToolStripMenuItem"
-        Me.NotesToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.NotesToolStripMenuItem.Size = New System.Drawing.Size(146, 22)
         Me.NotesToolStripMenuItem.Text = "Notes"
+        '
+        'SQLBuilderToolStripMenuItem
+        '
+        Me.SQLBuilderToolStripMenuItem.Name = "SQLBuilderToolStripMenuItem"
+        Me.SQLBuilderToolStripMenuItem.Size = New System.Drawing.Size(146, 22)
+        Me.SQLBuilderToolStripMenuItem.Text = "SQL Builder"
         '
         'WindowToolStripMenuItem
         '
@@ -182,7 +188,7 @@ Partial Class ESPOTModelMDI
         'stsFWMainMenu
         '
         Me.stsFWMainMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.stsFW100Label1, Me.stsFW100Label2, Me.stsFW100Label3, Me.stsFW100Label4, Me.stsFW100Label5, Me.stsFW100Label6})
-        Me.stsFWMainMenu.Location = New System.Drawing.Point(0, 368)
+        Me.stsFWMainMenu.Location = New System.Drawing.Point(0, 503)
         Me.stsFWMainMenu.Name = "stsFWMainMenu"
         Me.stsFWMainMenu.Size = New System.Drawing.Size(1324, 22)
         Me.stsFWMainMenu.TabIndex = 53
@@ -235,17 +241,11 @@ Partial Class ESPOTModelMDI
         Me.stsFW100Label6.Name = "stsFW100Label6"
         Me.stsFW100Label6.Size = New System.Drawing.Size(4, 17)
         '
-        'SQLBuilderToolStripMenuItem
-        '
-        Me.SQLBuilderToolStripMenuItem.Name = "SQLBuilderToolStripMenuItem"
-        Me.SQLBuilderToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.SQLBuilderToolStripMenuItem.Text = "SQL Builder"
-        '
         'ESPOTModelMDI
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1324, 390)
+        Me.ClientSize = New System.Drawing.Size(1324, 525)
         Me.Controls.Add(Me.stsFWMainMenu)
         Me.Controls.Add(Me.tls1)
         Me.Controls.Add(Me.MenuStrip1)
