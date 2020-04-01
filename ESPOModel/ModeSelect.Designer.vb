@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class Form1
+Partial Class ModeSelect
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
@@ -22,30 +22,40 @@ Partial Class Form1
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.gbTOP = New System.Windows.Forms.GroupBox()
+        Me.cboMode = New System.Windows.Forms.ComboBox()
+        Me.btnOK = New System.Windows.Forms.Button()
         Me.SuspendLayout()
         '
-        'gbTOP
+        'cboMode
         '
-        Me.gbTOP.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.gbTOP.Location = New System.Drawing.Point(1, 2)
-        Me.gbTOP.Name = "gbTOP"
-        Me.gbTOP.Size = New System.Drawing.Size(1054, 108)
-        Me.gbTOP.TabIndex = 0
-        Me.gbTOP.TabStop = False
+        Me.cboMode.FormattingEnabled = True
+        Me.cboMode.Location = New System.Drawing.Point(38, 22)
+        Me.cboMode.Name = "cboMode"
+        Me.cboMode.Size = New System.Drawing.Size(148, 21)
+        Me.cboMode.TabIndex = 0
         '
-        'Form1
+        'btnOK
+        '
+        Me.btnOK.Location = New System.Drawing.Point(111, 86)
+        Me.btnOK.Name = "btnOK"
+        Me.btnOK.Size = New System.Drawing.Size(75, 23)
+        Me.btnOK.TabIndex = 1
+        Me.btnOK.Text = "OK"
+        Me.btnOK.UseVisualStyleBackColor = True
+        '
+        'ModeSelect
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1056, 298)
-        Me.Controls.Add(Me.gbTOP)
-        Me.Name = "Form1"
-        Me.Text = "Form1"
+        Me.ClientSize = New System.Drawing.Size(258, 143)
+        Me.Controls.Add(Me.btnOK)
+        Me.Controls.Add(Me.cboMode)
+        Me.Name = "ModeSelect"
+        Me.Text = "Select Mode"
         Me.ResumeLayout(False)
 
     End Sub
 
-    Friend WithEvents gbTOP As GroupBox
+    Friend WithEvents cboMode As ComboBox
+    Friend WithEvents btnOK As Button
 End Class
