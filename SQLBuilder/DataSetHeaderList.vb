@@ -32,8 +32,8 @@
         'dgvCheck.Name = "SelectField"
 
         dgvHeaderList.DataSource = Nothing
-        'dt = myDAL.GetHeaderListMYSQL()
-        dt = myDAL.GetHeaderList(GlobalSession.ConnectString)
+        dt = myDAL.GetHeaderListMYSQL()
+        'dt = myDAL.GetHeaderList(GlobalSession.ConnectString)
 
         If dt.Rows.Count > 0 Then
             dgvHeaderList.DataSource = dt
@@ -71,7 +71,7 @@
         Dim DataSetID As Integer
         Dim Tablename As String
         Dim DataSetName As String
-        Dim App As New SimpleQueryBuilder.SQLBuilder
+        Dim App As New SimpleSQLBuilder.SQLBuilder
 
         Cursor = Cursors.Default
 

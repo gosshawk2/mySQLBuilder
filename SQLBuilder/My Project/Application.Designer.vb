@@ -32,7 +32,7 @@ Namespace My
         
         <Global.System.Diagnostics.DebuggerStepThroughAttribute()>  _
         Protected Overrides Sub OnCreateMainForm()
-            Me.MainForm = Global.SimpleQueryBuilder.DataSetHeaderList
+            Me.MainForm = Global.SimpleSQLBuilder.DataSetHeaderList
         End Sub
     End Class
 End Namespace

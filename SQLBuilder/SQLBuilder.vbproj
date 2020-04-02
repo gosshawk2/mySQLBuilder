@@ -6,9 +6,9 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{86D27397-DF7C-4631-B426-59B62C355F2A}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <StartupObject>SimpleQueryBuilder.My.MyApplication</StartupObject>
-    <RootNamespace>SimpleQueryBuilder</RootNamespace>
-    <AssemblyName>SimpleQueryBuilder</AssemblyName>
+    <StartupObject>SimpleSQLBuilder.My.MyApplication</StartupObject>
+    <RootNamespace>SimpleSQLBuilder</RootNamespace>
+    <AssemblyName>SimpleSQLBuilder</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>WindowsForms</MyType>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
@@ -22,7 +22,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Debug\</OutputPath>
-    <DocumentationFile>SimpleQueryBuilder.xml</DocumentationFile>
+    <DocumentationFile>SimpleSQLBuilder.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -32,7 +32,7 @@
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DocumentationFile>SimpleQueryBuilder.xml</DocumentationFile>
+    <DocumentationFile>SimpleSQLBuilder.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup>
@@ -115,6 +115,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="myGlobals.vb" />
     <Compile Include="SQLBuilder.Designer.vb">
       <DependentUpon>SQLBuilder.vb</DependentUpon>
     </Compile>
@@ -122,6 +123,18 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="SQLBuilderDAL.vb" />
+    <Compile Include="ViewSQL.Designer.vb">
+      <DependentUpon>ViewSQL.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ViewSQL.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WherePart.Designer.vb">
+      <DependentUpon>WherePart.vb</DependentUpon>
+    </Compile>
+    <Compile Include="WherePart.vb">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="DataSetHeaderList.resx">
@@ -135,6 +148,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SQLBuilder.resx">
       <DependentUpon>SQLBuilder.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ViewSQL.resx">
+      <DependentUpon>ViewSQL.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WherePart.resx">
+      <DependentUpon>WherePart.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

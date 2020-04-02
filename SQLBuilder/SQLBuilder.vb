@@ -1,8 +1,10 @@
 ﻿Public Class SQLBuilder
     Private _DataSetID As Integer
+    Private _WhereConditions As String
     Dim GlobalParms As New ESPOParms.Framework
     Dim GlobalSession As New ESPOParms.Session
     Dim dic_ColumnText As Object
+    Public Shared myWhereConditions As New myGlobals
     Public Sub GetParms(Session As ESPOParms.Session, Parms As ESPOParms.Framework)
         GlobalParms = Parms
         GlobalSession = Session
@@ -31,6 +33,15 @@
         End Set
     End Property
 
+    Public Property WhereConditions As String
+        Get
+            Return _WhereConditions
+        End Get
+        Set(value As String)
+            _WhereConditions = value
+        End Set
+    End Property
+
     Sub PopulateForm(DataSetID As Integer)
         Cursor = Cursors.WaitCursor
         Dim myDAL As New SQLBuilderDAL
@@ -43,8 +54,8 @@
         dgvCheck.Name = "SelectField"
 
         dgvFieldSelection.DataSource = Nothing
-        'dt = myDAL.GetColumnsMYSQL(DataSetID)
-        dt = myDAL.GetColumns(GlobalSession.ConnectString, DataSetID)
+        dt = myDAL.GetColumnsMYSQL(DataSetID)
+        'dt = myDAL.GetColumns(GlobalSession.ConnectString, DataSetID)
         If dt IsNot Nothing Then
             If dt.Rows.Count > 0 Then
                 dgvFieldSelection.DataSource = dt
@@ -76,7 +87,6 @@
     Private Sub btnRefresh_Click(sender As Object, e As EventArgs) Handles btnRefresh.Click
 
         PopulateForm(Me.TheDataSetID)
-        txtSQLQuery.Text = ""
         lstFields.Items.Clear()
         chklstOrderBY.Items.Clear()
 
@@ -110,33 +120,42 @@
 
     End Function
 
-    Sub SelectFields(OrderBy As Boolean)
+    Sub SelectFields(SelectedList As String)
         Dim ColumnName As String
         Dim ColumnText As String
 
-        If OrderBy Then
-            chklstOrderBY.Items.Clear()
-        Else
-            lstFields.Items.Clear()
-
-        End If
         For i As Integer = 0 To dgvFieldSelection.Rows.Count - 1
             If dgvFieldSelection.Rows(i).Cells("SelectField").Value = True Then
                 ColumnName = dgvFieldSelection.Rows(i).Cells("Column Name").Value
                 ColumnText = dgvFieldSelection.Rows(i).Cells("Column Text").Value
                 dic_ColumnText(ColumnName) = ColumnText
-                If OrderBy = False Then
-                    'is it in the list already ?
-                    If Not IsInList(lstFields, ColumnName) Then
-                        lstFields.Items.Add(ColumnName)
-                    End If
 
-                Else
-                    If Not IsInCHKList(chklstOrderBY, ColumnName) Then
-                        chklstOrderBY.Items.Add(ColumnName)
-                    End If
-
-                End If
+                Select Case UCase(SelectedList)
+                    Case "SELECT FIELDS"
+                        If i = 0 Then
+                            lstFields.Items.Clear()
+                        End If
+                        If Not IsInList(lstFields, ColumnName) Then
+                            lstFields.Items.Add(ColumnName)
+                        End If
+                    Case "WHERE FIELDS"
+                        If i = 0 Then
+                            lstWhereFields.Items.Clear()
+                        End If
+                        If Not IsInList(lstWhereFields, ColumnName) Then
+                            lstWhereFields.Items.Add(ColumnName)
+                        End If
+                    Case "ORDERBY FIELDS"
+                        If i = 0 Then
+                            chklstOrderBY.Items.Clear()
+                        End If
+                        If Not IsInCHKList(chklstOrderBY, ColumnName) Then
+                            chklstOrderBY.Items.Add(ColumnName)
+                        End If
+                    Case Else
+                        MsgBox("List not recognised")
+                        Exit Sub
+                End Select
 
             End If
         Next
@@ -181,17 +200,18 @@
         Dim CurrentIDX As Integer
         Dim strCurrentItem As String
         Dim NewIDX As Integer
-
+        Dim IsSelected As Boolean
 
         CurrentIDX = chklstOrderBY.SelectedIndex
 
         If CurrentIDX > 0 Then
+            IsSelected = chklstOrderBY.GetItemChecked(CurrentIDX)
             strCurrentItem = chklstOrderBY.Items(CurrentIDX)
             NewIDX = CurrentIDX - 1
             chklstOrderBY.Items.RemoveAt(CurrentIDX)
             chklstOrderBY.Items.Insert(NewIDX, strCurrentItem)
             chklstOrderBY.SelectedIndex = NewIDX
-
+            chklstOrderBY.SetItemChecked(NewIDX, IsSelected)
         End If
 
     End Sub
@@ -200,20 +220,23 @@
         Dim CurrentIDX As Integer
         Dim strCurrentItem As String
         Dim NewIDX As Integer
+        Dim IsSelected As Boolean
 
         CurrentIDX = chklstOrderBY.SelectedIndex
 
         If CurrentIDX < chklstOrderBY.Items.Count - 1 And CurrentIDX > -1 Then
+            IsSelected = chklstOrderBY.GetItemChecked(CurrentIDX)
             strCurrentItem = chklstOrderBY.Items(CurrentIDX)
             NewIDX = CurrentIDX + 1
             chklstOrderBY.Items.RemoveAt(CurrentIDX)
             chklstOrderBY.Items.Insert(NewIDX, strCurrentItem)
             chklstOrderBY.SelectedIndex = NewIDX
+            chklstOrderBY.SetItemChecked(NewIDX, IsSelected)
         End If
     End Sub
 
     Private Sub btnSelectFields_Click(sender As Object, e As EventArgs) Handles btnSelectFields.Click
-        SelectFields(False)
+        SelectFields("SELECT FIELDS")
 
     End Sub
 
@@ -227,7 +250,7 @@
 
     End Sub
 
-    Sub BuildQueryFromSelection()
+    Function BuildQueryFromSelection() As String
         Dim ColumnName As String
         Dim ColumnText As String
         Dim TableName As String
@@ -239,6 +262,7 @@
         Dim OrderByFields As String
         Dim IsChecked As Boolean
 
+        BuildQueryFromSelection = ""
         SelectPart = "SELECT "
         FieldsSelected = ""
         OrderByFields = ""
@@ -265,15 +289,19 @@
             End If
         Next
         SelectPart += FieldsSelected & " FROM " & TableName
+        If myWhereConditions.GetMyWhereCondtions <> "" Then
+            SelectPart += " WHERE " & myWhereConditions.GetMyWhereCondtions
+        End If
         If OrderByFields <> "" Then
             SelectPart += " ORDER BY " & OrderByFields
         End If
         FinalQuery = SelectPart
-        txtSQLQuery.Text = FinalQuery
         Cursor = Cursors.Default
-    End Sub
+        Return FinalQuery
 
-    Private Sub btnSelectionToQuery_Click(sender As Object, e As EventArgs) Handles btnSelectionToQuery.Click
+    End Function
+
+    Private Sub btnSelectionToQuery_Click(sender As Object, e As EventArgs)
         '
         BuildQueryFromSelection()
 
@@ -303,7 +331,7 @@
     End Sub
 
     Private Sub btnSelectOrderBy_Click(sender As Object, e As EventArgs) Handles btnSelectOrderBy.Click
-        SelectFields(True)
+        SelectFields("ORDERBY FIELDS")
     End Sub
 
     Private Sub btnMoveOrderByUp_Click(sender As Object, e As EventArgs) Handles btnMoveOrderByUp.Click
@@ -313,6 +341,62 @@
 
     Private Sub btnMoveOrderByDown_Click(sender As Object, e As EventArgs) Handles btnMoveOrderByDown.Click
         MoveOrderByItemDown()
+
+    End Sub
+
+    Private Sub SQLQueryToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SQLQueryToolStripMenuItem.Click
+        Dim FinalQuery As String
+        Dim App As New ViewSQL
+
+
+        Cursor = Cursors.Default
+        FinalQuery = BuildQueryFromSelection()
+        stsQueryBuilderLabel1.Text = "Building Query ..."
+        Cursor = Cursors.WaitCursor
+        Refresh()
+
+        App.Visible = False
+        'App.GetParms(GlobalSession, GlobalParms)
+        App.PopulateForm(FinalQuery)
+        App.Show()
+        'App.Visible = True
+        stsQueryBuilderLabel1.Text = ""
+        Cursor = Cursors.Default
+    End Sub
+
+    Private Sub btnAddWhere_Click(sender As Object, e As EventArgs) Handles btnAddWhere.Click
+        Dim App As New WherePart
+        Dim arrWhereFields As String()
+        Dim strField As String
+
+        ReDim arrWhereFields(lstWhereFields.Items.Count - 1)
+        For i As Integer = 0 To lstWhereFields.Items.Count - 1
+            strField = lstWhereFields.Items(i)
+            'arrWhereFields(i) = strField
+            arrWhereFields(i) = lstWhereFields.Items(i)
+        Next
+
+        Cursor = Cursors.Default
+        stsQueryBuilderLabel1.Text = "Building WHERE Clause ..."
+        Cursor = Cursors.WaitCursor
+        Refresh()
+
+        App.Visible = False
+        'App.GetParms(GlobalSession, GlobalParms)
+        App.PopulateForm(arrWhereFields)
+        'App.PopulateForm(lstWhereFields)
+        App.Show()
+        'App.Visible = True
+        stsQueryBuilderLabel1.Text = ""
+        Cursor = Cursors.Default
+    End Sub
+
+    Private Sub btnAddWhereFields_Click(sender As Object, e As EventArgs) Handles btnAddWhereFields.Click
+        SelectFields("WHERE FIELDS")
+    End Sub
+
+    Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
+        Close()
 
     End Sub
 End Class

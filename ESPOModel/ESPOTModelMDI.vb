@@ -3,6 +3,7 @@
     Dim GlobalSession As ESPOParms.Session
     Dim p As System.Security.Principal.WindowsPrincipal = CType(System.Threading.Thread.CurrentPrincipal, System.Security.Principal.WindowsPrincipal)
     Dim userid As String = p.Identity.Name
+    Dim WhereConditions As String
 
 
     Private Sub ESPOModelMDI_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -10,6 +11,7 @@
         GlobalParms = New ESPOParms.Framework
         GlobalSession.CurrentUser = userid
         GlobalSession.CurrentUserShort = GlobalSession.CurrentUser.Split("\")(1)
+
 
         Dim strStartupArguments() As String
         strStartupArguments = System.Environment.GetCommandLineArgs
@@ -101,7 +103,7 @@
         stsFW100Label1.Text = "Loading List......"
         Cursor = Cursors.WaitCursor
         Refresh()
-        Dim App As New SimpleQueryBuilder.DataSetHeaderList
+        Dim App As New SimpleSQLBuilder.DataSetHeaderList
 
         App.Visible = False
         App.GetParms(GlobalSession, GlobalParms)
