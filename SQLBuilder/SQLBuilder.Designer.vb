@@ -37,9 +37,13 @@ Partial Class SQLBuilder
         Me.btnMoveDOWN = New System.Windows.Forms.Button()
         Me.btnSelectFields = New System.Windows.Forms.Button()
         Me.stsQueryBuilder = New System.Windows.Forms.StatusStrip()
-        Me.Label2 = New System.Windows.Forms.Label()
         Me.stsQueryBuilderLabel1 = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.Label2 = New System.Windows.Forms.Label()
         Me.btnSelectAll = New System.Windows.Forms.Button()
+        Me.btnSelectOrderBy = New System.Windows.Forms.Button()
+        Me.btnMoveOrderByDown = New System.Windows.Forms.Button()
+        Me.btnMoveOrderByUp = New System.Windows.Forms.Button()
+        Me.chklstOrderBY = New System.Windows.Forms.CheckedListBox()
         CType(Me.dgvFieldSelection, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.stsQueryBuilder.SuspendLayout()
         Me.SuspendLayout()
@@ -50,7 +54,7 @@ Partial Class SQLBuilder
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.gbTOP.Location = New System.Drawing.Point(1, 0)
         Me.gbTOP.Name = "gbTOP"
-        Me.gbTOP.Size = New System.Drawing.Size(920, 43)
+        Me.gbTOP.Size = New System.Drawing.Size(1031, 43)
         Me.gbTOP.TabIndex = 0
         Me.gbTOP.TabStop = False
         '
@@ -80,13 +84,13 @@ Partial Class SQLBuilder
         Me.dgvFieldSelection.Location = New System.Drawing.Point(12, 94)
         Me.dgvFieldSelection.MinimumSize = New System.Drawing.Size(0, 170)
         Me.dgvFieldSelection.Name = "dgvFieldSelection"
-        Me.dgvFieldSelection.Size = New System.Drawing.Size(465, 429)
+        Me.dgvFieldSelection.Size = New System.Drawing.Size(576, 410)
         Me.dgvFieldSelection.TabIndex = 11
         '
         'btnSelectionToQuery
         '
         Me.btnSelectionToQuery.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnSelectionToQuery.Location = New System.Drawing.Point(650, 434)
+        Me.btnSelectionToQuery.Location = New System.Drawing.Point(761, 479)
         Me.btnSelectionToQuery.Name = "btnSelectionToQuery"
         Me.btnSelectionToQuery.Size = New System.Drawing.Size(169, 23)
         Me.btnSelectionToQuery.TabIndex = 10
@@ -95,9 +99,9 @@ Partial Class SQLBuilder
         '
         'Label4
         '
-        Me.Label4.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label4.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(504, 472)
+        Me.Label4.Location = New System.Drawing.Point(12, 522)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(62, 13)
         Me.Label4.TabIndex = 9
@@ -105,11 +109,13 @@ Partial Class SQLBuilder
         '
         'txtSQLQuery
         '
-        Me.txtSQLQuery.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.txtSQLQuery.Location = New System.Drawing.Point(572, 464)
+        Me.txtSQLQuery.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.txtSQLQuery.Location = New System.Drawing.Point(80, 518)
         Me.txtSQLQuery.Multiline = True
         Me.txtSQLQuery.Name = "txtSQLQuery"
-        Me.txtSQLQuery.Size = New System.Drawing.Size(312, 60)
+        Me.txtSQLQuery.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
+        Me.txtSQLQuery.Size = New System.Drawing.Size(915, 115)
         Me.txtSQLQuery.TabIndex = 8
         '
         'btnRefresh
@@ -139,20 +145,19 @@ Partial Class SQLBuilder
         '
         'lstFields
         '
-        Me.lstFields.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lstFields.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lstFields.FormattingEnabled = True
-        Me.lstFields.Location = New System.Drawing.Point(650, 94)
+        Me.lstFields.Location = New System.Drawing.Point(761, 94)
         Me.lstFields.MinimumSize = New System.Drawing.Size(4, 170)
         Me.lstFields.Name = "lstFields"
-        Me.lstFields.Size = New System.Drawing.Size(169, 303)
+        Me.lstFields.Size = New System.Drawing.Size(169, 160)
         Me.lstFields.TabIndex = 17
         '
         'btnMoveUP
         '
         Me.btnMoveUP.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnMoveUP.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnMoveUP.Location = New System.Drawing.Point(845, 95)
+        Me.btnMoveUP.Location = New System.Drawing.Point(956, 95)
         Me.btnMoveUP.Name = "btnMoveUP"
         Me.btnMoveUP.Size = New System.Drawing.Size(39, 33)
         Me.btnMoveUP.TabIndex = 18
@@ -163,7 +168,7 @@ Partial Class SQLBuilder
         '
         Me.btnMoveDOWN.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnMoveDOWN.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnMoveDOWN.Location = New System.Drawing.Point(845, 135)
+        Me.btnMoveDOWN.Location = New System.Drawing.Point(956, 135)
         Me.btnMoveDOWN.Name = "btnMoveDOWN"
         Me.btnMoveDOWN.Size = New System.Drawing.Size(39, 31)
         Me.btnMoveDOWN.TabIndex = 19
@@ -173,7 +178,7 @@ Partial Class SQLBuilder
         'btnSelectFields
         '
         Me.btnSelectFields.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnSelectFields.Location = New System.Drawing.Point(506, 94)
+        Me.btnSelectFields.Location = New System.Drawing.Point(617, 94)
         Me.btnSelectFields.Name = "btnSelectFields"
         Me.btnSelectFields.Size = New System.Drawing.Size(110, 23)
         Me.btnSelectFields.TabIndex = 20
@@ -183,26 +188,26 @@ Partial Class SQLBuilder
         'stsQueryBuilder
         '
         Me.stsQueryBuilder.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.stsQueryBuilderLabel1})
-        Me.stsQueryBuilder.Location = New System.Drawing.Point(0, 605)
+        Me.stsQueryBuilder.Location = New System.Drawing.Point(0, 652)
         Me.stsQueryBuilder.Name = "stsQueryBuilder"
-        Me.stsQueryBuilder.Size = New System.Drawing.Size(922, 22)
+        Me.stsQueryBuilder.Size = New System.Drawing.Size(1033, 22)
         Me.stsQueryBuilder.TabIndex = 21
         Me.stsQueryBuilder.Text = "StatusStrip1"
-        '
-        'Label2
-        '
-        Me.Label2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(507, 76)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(252, 13)
-        Me.Label2.TabIndex = 22
-        Me.Label2.Text = "Highlight item in list to move up or down with arrows:"
         '
         'stsQueryBuilderLabel1
         '
         Me.stsQueryBuilderLabel1.Name = "stsQueryBuilderLabel1"
         Me.stsQueryBuilderLabel1.Size = New System.Drawing.Size(0, 17)
+        '
+        'Label2
+        '
+        Me.Label2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label2.AutoSize = True
+        Me.Label2.Location = New System.Drawing.Point(618, 76)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(252, 13)
+        Me.Label2.TabIndex = 22
+        Me.Label2.Text = "Highlight item in list to move up or down with arrows:"
         '
         'btnSelectAll
         '
@@ -213,11 +218,56 @@ Partial Class SQLBuilder
         Me.btnSelectAll.Text = "Select All"
         Me.btnSelectAll.UseVisualStyleBackColor = True
         '
+        'btnSelectOrderBy
+        '
+        Me.btnSelectOrderBy.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnSelectOrderBy.Location = New System.Drawing.Point(617, 290)
+        Me.btnSelectOrderBy.Name = "btnSelectOrderBy"
+        Me.btnSelectOrderBy.Size = New System.Drawing.Size(110, 23)
+        Me.btnSelectOrderBy.TabIndex = 27
+        Me.btnSelectOrderBy.Text = "Select OrderBy ->"
+        Me.btnSelectOrderBy.UseVisualStyleBackColor = True
+        '
+        'btnMoveOrderByDown
+        '
+        Me.btnMoveOrderByDown.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnMoveOrderByDown.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnMoveOrderByDown.Location = New System.Drawing.Point(956, 331)
+        Me.btnMoveOrderByDown.Name = "btnMoveOrderByDown"
+        Me.btnMoveOrderByDown.Size = New System.Drawing.Size(39, 31)
+        Me.btnMoveOrderByDown.TabIndex = 26
+        Me.btnMoveOrderByDown.Text = "▼"
+        Me.btnMoveOrderByDown.UseVisualStyleBackColor = True
+        '
+        'btnMoveOrderByUp
+        '
+        Me.btnMoveOrderByUp.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnMoveOrderByUp.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnMoveOrderByUp.Location = New System.Drawing.Point(956, 291)
+        Me.btnMoveOrderByUp.Name = "btnMoveOrderByUp"
+        Me.btnMoveOrderByUp.Size = New System.Drawing.Size(39, 33)
+        Me.btnMoveOrderByUp.TabIndex = 25
+        Me.btnMoveOrderByUp.Text = "▲"
+        Me.btnMoveOrderByUp.UseVisualStyleBackColor = True
+        '
+        'chklstOrderBY
+        '
+        Me.chklstOrderBY.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.chklstOrderBY.FormattingEnabled = True
+        Me.chklstOrderBY.Location = New System.Drawing.Point(761, 290)
+        Me.chklstOrderBY.Name = "chklstOrderBY"
+        Me.chklstOrderBY.Size = New System.Drawing.Size(169, 169)
+        Me.chklstOrderBY.TabIndex = 28
+        '
         'SQLBuilder
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(922, 627)
+        Me.ClientSize = New System.Drawing.Size(1033, 674)
+        Me.Controls.Add(Me.chklstOrderBY)
+        Me.Controls.Add(Me.btnSelectOrderBy)
+        Me.Controls.Add(Me.btnMoveOrderByDown)
+        Me.Controls.Add(Me.btnMoveOrderByUp)
         Me.Controls.Add(Me.btnSelectAll)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.stsQueryBuilder)
@@ -264,4 +314,8 @@ Partial Class SQLBuilder
     Friend WithEvents Label2 As Label
     Friend WithEvents stsQueryBuilderLabel1 As ToolStripStatusLabel
     Friend WithEvents btnSelectAll As Button
+    Friend WithEvents btnSelectOrderBy As Button
+    Friend WithEvents btnMoveOrderByDown As Button
+    Friend WithEvents btnMoveOrderByUp As Button
+    Friend WithEvents chklstOrderBY As CheckedListBox
 End Class

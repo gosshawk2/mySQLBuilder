@@ -78,19 +78,66 @@
         PopulateForm(Me.TheDataSetID)
         txtSQLQuery.Text = ""
         lstFields.Items.Clear()
+        chklstOrderBY.Items.Clear()
 
     End Sub
 
-    Sub SelectFields()
+    Function IsInList(lstBox As ListBox, CheckItem As String) As Boolean
+        Dim ItemName As String
+
+        IsInList = False
+        For i As Integer = 0 To lstBox.Items.Count - 1
+            ItemName = lstBox.Items(i)
+            If UCase(CheckItem) = UCase(ItemName) Then
+                Return True
+                Exit For
+            End If
+        Next
+
+    End Function
+
+    Function IsInCHKList(lstBox As CheckedListBox, CheckItem As String) As Boolean
+        Dim ItemName As String
+
+        IsInCHKList = False
+        For i As Integer = 0 To lstBox.Items.Count - 1
+            ItemName = lstBox.Items(i)
+            If UCase(CheckItem) = UCase(ItemName) Then
+                Return True
+                Exit For
+            End If
+        Next
+
+    End Function
+
+    Sub SelectFields(OrderBy As Boolean)
         Dim ColumnName As String
         Dim ColumnText As String
 
+        If OrderBy Then
+            chklstOrderBY.Items.Clear()
+        Else
+            lstFields.Items.Clear()
+
+        End If
         For i As Integer = 0 To dgvFieldSelection.Rows.Count - 1
             If dgvFieldSelection.Rows(i).Cells("SelectField").Value = True Then
                 ColumnName = dgvFieldSelection.Rows(i).Cells("Column Name").Value
                 ColumnText = dgvFieldSelection.Rows(i).Cells("Column Text").Value
                 dic_ColumnText(ColumnName) = ColumnText
-                lstFields.Items.Add(ColumnName)
+                If OrderBy = False Then
+                    'is it in the list already ?
+                    If Not IsInList(lstFields, ColumnName) Then
+                        lstFields.Items.Add(ColumnName)
+                    End If
+
+                Else
+                    If Not IsInCHKList(chklstOrderBY, ColumnName) Then
+                        chklstOrderBY.Items.Add(ColumnName)
+                    End If
+
+                End If
+
             End If
         Next
     End Sub
@@ -130,8 +177,43 @@
         End If
     End Sub
 
+    Sub MoveOrderByItemUp()
+        Dim CurrentIDX As Integer
+        Dim strCurrentItem As String
+        Dim NewIDX As Integer
+
+
+        CurrentIDX = chklstOrderBY.SelectedIndex
+
+        If CurrentIDX > 0 Then
+            strCurrentItem = chklstOrderBY.Items(CurrentIDX)
+            NewIDX = CurrentIDX - 1
+            chklstOrderBY.Items.RemoveAt(CurrentIDX)
+            chklstOrderBY.Items.Insert(NewIDX, strCurrentItem)
+            chklstOrderBY.SelectedIndex = NewIDX
+
+        End If
+
+    End Sub
+
+    Sub MoveOrderByItemDown()
+        Dim CurrentIDX As Integer
+        Dim strCurrentItem As String
+        Dim NewIDX As Integer
+
+        CurrentIDX = chklstOrderBY.SelectedIndex
+
+        If CurrentIDX < chklstOrderBY.Items.Count - 1 And CurrentIDX > -1 Then
+            strCurrentItem = chklstOrderBY.Items(CurrentIDX)
+            NewIDX = CurrentIDX + 1
+            chklstOrderBY.Items.RemoveAt(CurrentIDX)
+            chklstOrderBY.Items.Insert(NewIDX, strCurrentItem)
+            chklstOrderBY.SelectedIndex = NewIDX
+        End If
+    End Sub
+
     Private Sub btnSelectFields_Click(sender As Object, e As EventArgs) Handles btnSelectFields.Click
-        SelectFields()
+        SelectFields(False)
 
     End Sub
 
@@ -154,9 +236,12 @@
         Dim FieldsSelected As String
         Dim SelectPart As String
         Dim FinalQuery As String
+        Dim OrderByFields As String
+        Dim IsChecked As Boolean
 
         SelectPart = "SELECT "
         FieldsSelected = ""
+        OrderByFields = ""
         TableName = txtTablename.Text
         For i As Integer = 0 To lstFields.Items.Count - 1
             ColumnName = lstFields.Items(i)
@@ -167,7 +252,22 @@
                 FieldsSelected += "," & Trim(ColumnName) & " AS """ & ColumnText & """"
             End If
         Next
+        For i As Integer = 0 To chklstOrderBY.Items.Count - 1
+            ColumnName = chklstOrderBY.Items(i)
+            IsChecked = chklstOrderBY.GetItemChecked(i)
+            If OrderByFields = "" Then
+                OrderByFields += Trim(ColumnName)
+            Else
+                OrderByFields += "," & Trim(ColumnName)
+            End If
+            If IsChecked Then
+                OrderByFields += " DESC"
+            End If
+        Next
         SelectPart += FieldsSelected & " FROM " & TableName
+        If OrderByFields <> "" Then
+            SelectPart += " ORDER BY " & OrderByFields
+        End If
         FinalQuery = SelectPart
         txtSQLQuery.Text = FinalQuery
         Cursor = Cursors.Default
@@ -200,5 +300,19 @@
         For i As Integer = 0 To dgvFieldSelection.Rows.Count - 1
             dgvFieldSelection.Rows(i).Cells("SelectField").Value = Selected
         Next
+    End Sub
+
+    Private Sub btnSelectOrderBy_Click(sender As Object, e As EventArgs) Handles btnSelectOrderBy.Click
+        SelectFields(True)
+    End Sub
+
+    Private Sub btnMoveOrderByUp_Click(sender As Object, e As EventArgs) Handles btnMoveOrderByUp.Click
+        MoveOrderByItemUp()
+
+    End Sub
+
+    Private Sub btnMoveOrderByDown_Click(sender As Object, e As EventArgs) Handles btnMoveOrderByDown.Click
+        MoveOrderByItemDown()
+
     End Sub
 End Class
