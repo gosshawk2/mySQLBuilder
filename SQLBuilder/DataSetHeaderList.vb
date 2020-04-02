@@ -87,10 +87,10 @@
         App.PopulateForm(DataSetID)
         App.txtTablename.Text = Tablename
         App.txtDatasetName.Text = DataSetName
-        App.Left = 5
-        App.Height = 5
-        App.Width = 938
-        App.Height = 830
+        'App.Left = 5
+        'App.Height = 5
+        'App.Width = 938
+        'App.Height = 830
         App.Show()
         'stsFW100Label1.Text = ""
         'App.Visible = True
@@ -111,18 +111,28 @@
         'Select Right Clicked Row if its not the header row
         If e.Button = Windows.Forms.MouseButtons.Right AndAlso e.RowIndex > -1 Then
             'Clear any currently sellected rows
-            dgvHeaderList.ClearSelection()
-            Me.dgvHeaderList.Rows(e.RowIndex).Selected = True
-            If e.ColumnIndex >= 0 And e.RowIndex >= 0 Then
-                Me.dgvHeaderList.CurrentCell = Me.dgvHeaderList.Rows(e.RowIndex).Cells(e.ColumnIndex)
-            End If
-            HeaderListCRUD.Show(Cursor.Position)
+            'dgvHeaderList.ClearSelection()
+            'Me.dgvHeaderList.Rows(e.RowIndex).Selected = True
+            'If e.ColumnIndex >= 0 And e.RowIndex >= 0 Then
+            'Me.dgvHeaderList.CurrentCell = Me.dgvHeaderList.Rows(e.RowIndex).Cells(e.ColumnIndex)
+            'End If
+            'HeaderListCRUD.Show(Cursor.Position)
         End If
     End Sub
 
     Private Sub dgvHeaderList_MouseClick(sender As Object, e As MouseEventArgs) Handles dgvHeaderList.MouseClick
+        Dim hit As DataGridView.HitTestInfo = dgvHeaderList.HitTest(e.X, e.Y)
+
         If e.Button = Windows.Forms.MouseButtons.Right Then
             'Clear any currently sellected rows ?
+            If hit.Type = DataGridViewHitTestType.Cell Then
+                'dgvHeaderList.Rows(hit.RowIndex).Cells(hit.ColumnIndex)
+                dgvHeaderList.ClearSelection()
+                Me.dgvHeaderList.Rows(hit.RowIndex).Selected = True
+                If hit.ColumnIndex >= 0 And hit.RowIndex >= 0 Then
+                    Me.dgvHeaderList.CurrentCell = Me.dgvHeaderList.Rows(hit.RowIndex).Cells(hit.ColumnIndex)
+                End If
+            End If
             HeaderListCRUD.Show(Cursor.Position)
         End If
     End Sub

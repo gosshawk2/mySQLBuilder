@@ -47,7 +47,6 @@ Partial Class DataSetHeaderList
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.dgvHeaderList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.dgvHeaderList.ContextMenuStrip = Me.HeaderListCRUD
         Me.dgvHeaderList.Location = New System.Drawing.Point(3, 60)
         Me.dgvHeaderList.Name = "dgvHeaderList"
         Me.dgvHeaderList.Size = New System.Drawing.Size(1112, 468)
@@ -62,7 +61,7 @@ Partial Class DataSetHeaderList
         'SelectToolStripMenuItem
         '
         Me.SelectToolStripMenuItem.Name = "SelectToolStripMenuItem"
-        Me.SelectToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.SelectToolStripMenuItem.Size = New System.Drawing.Size(105, 22)
         Me.SelectToolStripMenuItem.Text = "Select"
         '
         'DataSetHeaderList

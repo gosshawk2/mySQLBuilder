@@ -2,6 +2,7 @@
     Private _DataSetID As Integer
     Dim GlobalParms As New ESPOParms.Framework
     Dim GlobalSession As New ESPOParms.Session
+    Dim dic_ColumnText As Object
     Public Sub GetParms(Session As ESPOParms.Session, Parms As ESPOParms.Framework)
         GlobalParms = Parms
         GlobalSession = Session
@@ -16,6 +17,9 @@
         dgvFieldSelection.AllowUserToResizeColumns = True
         dgvFieldSelection.AllowUserToAddRows = False
         dgvFieldSelection.AllowUserToDeleteRows = False
+        dic_ColumnText = CreateObject("Scripting.Dictionary")
+        dic_ColumnText.CompareMode = vbTextCompare
+
     End Sub
 
     Public Property TheDataSetID As Integer
@@ -31,7 +35,6 @@
         Cursor = Cursors.WaitCursor
         Dim myDAL As New SQLBuilderDAL
         Dim dt As DataTable
-        Dim Tablename As String
 
         Me.TheDataSetID = DataSetID
         dgvFieldSelection.Columns.Clear()
@@ -50,40 +53,6 @@
         End If
 
         Cursor = Cursors.Default
-    End Sub
-
-    Sub BuildQueryFromSelection()
-        Dim ColumnName As String
-        Dim TableName As String
-        Dim Sequence As String
-        Dim FieldID As String
-        Dim FieldsSelected As String
-        Dim SelectPart As String
-        Dim FinalQuery As String
-
-        SelectPart = "SELECT "
-        FieldsSelected = ""
-        TableName = txtTablename.Text
-        For i As Integer = 0 To lstFields.Items.Count - 1
-            ColumnName = lstFields.Items(i)
-            'SelectedTableName = dgvFieldSelection.Rows(i).Cells("TableName").Value
-            If FieldsSelected = "" Then
-                FieldsSelected += Trim(ColumnName)
-            Else
-                FieldsSelected += "," & Trim(ColumnName)
-            End If
-        Next
-        SelectPart += FieldsSelected & " FROM " & TableName
-        FinalQuery = SelectPart
-        txtSQLQuery.Text = FinalQuery
-        Cursor = Cursors.Default
-    End Sub
-
-
-    Private Sub btnSelectionToQuery_Click(sender As Object, e As EventArgs) Handles btnSelectionToQuery.Click
-        '
-        BuildQueryFromSelection()
-
     End Sub
 
     Private Sub UndockChild()
@@ -120,6 +89,7 @@
             If dgvFieldSelection.Rows(i).Cells("SelectField").Value = True Then
                 ColumnName = dgvFieldSelection.Rows(i).Cells("Column Name").Value
                 ColumnText = dgvFieldSelection.Rows(i).Cells("Column Text").Value
+                dic_ColumnText(ColumnName) = ColumnText
                 lstFields.Items.Add(ColumnName)
             End If
         Next
@@ -173,5 +143,62 @@
     Private Sub btnMoveDOWN_Click(sender As Object, e As EventArgs) Handles btnMoveDOWN.Click
         MoveItemDown()
 
+    End Sub
+
+    Sub BuildQueryFromSelection()
+        Dim ColumnName As String
+        Dim ColumnText As String
+        Dim TableName As String
+        Dim Sequence As String
+        Dim FieldID As String
+        Dim FieldsSelected As String
+        Dim SelectPart As String
+        Dim FinalQuery As String
+
+        SelectPart = "SELECT "
+        FieldsSelected = ""
+        TableName = txtTablename.Text
+        For i As Integer = 0 To lstFields.Items.Count - 1
+            ColumnName = lstFields.Items(i)
+            ColumnText = dic_ColumnText(ColumnName)
+            If FieldsSelected = "" Then
+                FieldsSelected += Trim(ColumnName) & " AS """ & ColumnText & """"
+            Else
+                FieldsSelected += "," & Trim(ColumnName) & " AS """ & ColumnText & """"
+            End If
+        Next
+        SelectPart += FieldsSelected & " FROM " & TableName
+        FinalQuery = SelectPart
+        txtSQLQuery.Text = FinalQuery
+        Cursor = Cursors.Default
+    End Sub
+
+    Private Sub btnSelectionToQuery_Click(sender As Object, e As EventArgs) Handles btnSelectionToQuery.Click
+        '
+        BuildQueryFromSelection()
+
+    End Sub
+
+    Private Sub SQLBuilder_ClientSizeChanged(sender As Object, e As EventArgs) Handles MyBase.ClientSizeChanged
+
+    End Sub
+
+    Private Sub btnSelectAll_Click(sender As Object, e As EventArgs) Handles btnSelectAll.Click
+        Dim Selected As Boolean = False
+
+        If btnSelectAll.Text = "Select All" Then
+            btnSelectAll.Text = "Unselect All"
+            btnSelectAll.Refresh()
+            Selected = True
+        Else
+            'If btnSelectAll.Text = "Unselect All" Then
+            btnSelectAll.Text = "Select All"
+            btnSelectAll.Refresh()
+
+            Selected = False
+        End If
+        For i As Integer = 0 To dgvFieldSelection.Rows.Count - 1
+            dgvFieldSelection.Rows(i).Cells("SelectField").Value = Selected
+        Next
     End Sub
 End Class
