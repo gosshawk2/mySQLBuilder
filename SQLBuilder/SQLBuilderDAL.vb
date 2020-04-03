@@ -8,6 +8,8 @@ Public Class SQLBuilderDAL
     Function GetHeaderList(ConnectString As String) As DataTable
         Dim cn As New OdbcConnection(ConnectString)
         Dim SQLStatement As String
+
+        GetHeaderList = Nothing
         SQLStatement = "SELECT " &
             "trim(DatasetName) as ""DataSet Name"", " &
             "trim(DataSetHeaderText) as ""DataSet Header Text"", " &
@@ -39,6 +41,8 @@ Public Class SQLBuilderDAL
     Function GetColumns(ConnectString As String, DatasetID As Integer) As DataTable
         Dim cn As New OdbcConnection(ConnectString)
         Dim SQLStatement As String
+
+        GetColumns = Nothing
         SQLStatement = "SELECT " &
             "trim(ColumnName) as ""Column Name"", " &
             "trim(ColumnText) as ""Column Text"" " &

@@ -52,8 +52,11 @@
             Me.TheDataSetID = DataSetID
             dgvFieldSelection.Columns.Clear()
             Dim dgvCheck As New DataGridViewCheckBoxColumn()
+            Dim dgvCheckSum As New DataGridViewCheckBoxColumn()
             dgvCheck.HeaderText = "Select Field"
             dgvCheck.Name = "SelectField"
+            dgvCheckSum.HeaderText = "SUM()"
+            dgvCheckSum.Name = "SUM"
 
             dgvFieldSelection.DataSource = Nothing
             'dt = myDAL.GetColumnsMYSQL(DataSetID)
@@ -62,6 +65,7 @@
                 If dt.Rows.Count > 0 Then
                     dgvFieldSelection.DataSource = dt
                     dgvFieldSelection.Columns.Add(dgvCheck)
+                    dgvFieldSelection.Columns.Add(dgvCheckSum)
                 End If
             End If
         Catch ex As Exception
@@ -93,17 +97,21 @@
 
         PopulateForm(Me.TheDataSetID)
         lstFields.Items.Clear()
+        lstWhereFields.Items.Clear()
+        lstGroupByFields.Items.Clear()
         chklstOrderBY.Items.Clear()
 
     End Sub
 
-    Function IsInList(lstBox As ListBox, CheckItem As String) As Boolean
+    Function IsInList(lstBox As ListBox, CheckItem As String, ByRef ReturnIDX As Integer) As Boolean
         Dim ItemName As String
 
         IsInList = False
+        ReturnIDX = -1
         For i As Integer = 0 To lstBox.Items.Count - 1
             ItemName = lstBox.Items(i)
             If UCase(CheckItem) = UCase(ItemName) Then
+                ReturnIDX = i
                 Return True
                 Exit For
             End If
@@ -111,13 +119,15 @@
 
     End Function
 
-    Function IsInCHKList(lstBox As CheckedListBox, CheckItem As String) As Boolean
+    Function IsInCHKList(lstBox As CheckedListBox, CheckItem As String, ByRef ReturnIDX As Integer) As Boolean
         Dim ItemName As String
 
         IsInCHKList = False
+        ReturnIDX = -1
         For i As Integer = 0 To lstBox.Items.Count - 1
             ItemName = lstBox.Items(i)
             If UCase(CheckItem) = UCase(ItemName) Then
+                ReturnIDX = i
                 Return True
                 Exit For
             End If
@@ -128,40 +138,42 @@
     Sub SelectFields(SelectedList As String)
         Dim ColumnName As String
         Dim ColumnText As String
+        Dim SumItem As String
+        Dim ItemIDX As Integer
 
+        Select Case UCase(SelectedList)
+            Case "SELECT FIELDS"
+                lstFields.Items.Clear()
+            Case "WHERE FIELDS"
+                lstWhereFields.Items.Clear()
+            Case "GROUPBY FIELDS"
+                lstGroupByFields.Items.Clear()
+            Case "ORDERBY FIELDS"
+                chklstOrderBY.Items.Clear()
+            Case Else
+                MsgBox("List not recognised")
+                Exit Sub
+        End Select
         For i As Integer = 0 To dgvFieldSelection.Rows.Count - 1
             If dgvFieldSelection.Rows(i).Cells("SelectField").Value = True Then
                 ColumnName = dgvFieldSelection.Rows(i).Cells("Column Name").Value
                 ColumnText = dgvFieldSelection.Rows(i).Cells("Column Text").Value
-                dic_ColumnText(ColumnName) = ColumnText
-
                 Select Case UCase(SelectedList)
                     Case "SELECT FIELDS"
-                        If i = 0 Then
-                            lstFields.Items.Clear()
-                        End If
-                        If Not IsInList(lstFields, ColumnName) Then
+                        If Not IsInList(lstFields, ColumnName, ItemIDX) Then
+                            dic_ColumnText(ColumnName) = ColumnText 'stored for the AS part.
                             lstFields.Items.Add(ColumnName)
                         End If
                     Case "WHERE FIELDS"
-                        If i = 0 Then
-                            lstWhereFields.Items.Clear()
-                        End If
-                        If Not IsInList(lstWhereFields, ColumnName) Then
+                        If Not IsInList(lstWhereFields, ColumnName, ItemIDX) Then
                             lstWhereFields.Items.Add(ColumnName)
                         End If
                     Case "GROUPBY FIELDS"
-                        If i = 0 Then
-                            lstGroupByFields.Items.Clear()
-                        End If
-                        If Not IsInList(lstGroupByFields, ColumnName) Then
+                        If Not IsInList(lstGroupByFields, ColumnName, ItemIDX) Then
                             lstGroupByFields.Items.Add(ColumnName)
                         End If
                     Case "ORDERBY FIELDS"
-                        If i = 0 Then
-                            chklstOrderBY.Items.Clear()
-                        End If
-                        If Not IsInCHKList(chklstOrderBY, ColumnName) Then
+                        If Not IsInCHKList(chklstOrderBY, ColumnName, ItemIDX) Then
                             chklstOrderBY.Items.Add(ColumnName)
                         End If
                     Case Else
@@ -169,6 +181,23 @@
                         Exit Sub
                 End Select
 
+            End If
+            If dgvFieldSelection.Rows(i).Cells("SUM").Value = True Then
+                Select Case UCase(SelectedList)
+                    Case "SELECT FIELDS"
+                        ColumnName = dgvFieldSelection.Rows(i).Cells("Column Name").Value
+                        ColumnText = dgvFieldSelection.Rows(i).Cells("Column Text").Value
+                        SumItem = "SUM(" & ColumnName & ")"
+                        If IsInList(lstFields, ColumnName, ItemIDX) Then
+                            lstFields.Items.RemoveAt(ItemIDX)
+                        End If
+                        'Insert fieldname with SUM() around it:
+
+                        If Not IsInList(lstFields, SumItem, ItemIDX) Then
+                            lstFields.Items.Add(SumItem)
+                            dic_ColumnText(SumItem) = ColumnText 'stored for the AS part.
+                        End If
+                End Select
             End If
         Next
     End Sub
@@ -439,6 +468,20 @@
 
     Private Sub btnShowQuery_Click(sender As Object, e As EventArgs) Handles btnShowQuery.Click
         ShowQueryForm()
+
+    End Sub
+
+    Private Sub lstFields_MouseDown(sender As Object, e As MouseEventArgs) Handles lstFields.MouseDown
+        'Right-click to remove field:
+        Dim IDX As Integer
+
+        If e.Button = MouseButtons.Right Then
+
+            IDX = lstFields.SelectedIndex
+            If IDX > -1 Then
+                lstFields.Items.RemoveAt(IDX)
+            End If
+        End If
 
     End Sub
 End Class
