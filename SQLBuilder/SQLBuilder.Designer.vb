@@ -29,16 +29,16 @@ Partial Class SQLBuilder
         Me.Label1 = New System.Windows.Forms.Label()
         Me.txtDatasetName = New System.Windows.Forms.TextBox()
         Me.lstFields = New System.Windows.Forms.ListBox()
-        Me.btnMoveUP = New System.Windows.Forms.Button()
-        Me.btnMoveDOWN = New System.Windows.Forms.Button()
+        Me.btnMoveSelectFieldsUP = New System.Windows.Forms.Button()
+        Me.btnMoveSelectFieldsDOWN = New System.Windows.Forms.Button()
         Me.btnSelectFields = New System.Windows.Forms.Button()
         Me.stsQueryBuilder = New System.Windows.Forms.StatusStrip()
         Me.stsQueryBuilderLabel1 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.btnSelectAll = New System.Windows.Forms.Button()
         Me.btnSelectOrderBy = New System.Windows.Forms.Button()
-        Me.btnMoveOrderByDown = New System.Windows.Forms.Button()
-        Me.btnMoveOrderByUp = New System.Windows.Forms.Button()
+        Me.btnMoveOrderByFieldsDown = New System.Windows.Forms.Button()
+        Me.btnMoveOrderByFieldsUp = New System.Windows.Forms.Button()
         Me.chklstOrderBY = New System.Windows.Forms.CheckedListBox()
         Me.Label5 = New System.Windows.Forms.Label()
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
@@ -48,6 +48,11 @@ Partial Class SQLBuilder
         Me.lstWhereFields = New System.Windows.Forms.ListBox()
         Me.btnAddWhere = New System.Windows.Forms.Button()
         Me.btnClose = New System.Windows.Forms.Button()
+        Me.btnAddGroupByFields = New System.Windows.Forms.Button()
+        Me.btnMoveGroupByFieldsDown = New System.Windows.Forms.Button()
+        Me.btnMoveGroupByFieldsUp = New System.Windows.Forms.Button()
+        Me.lstGroupByFields = New System.Windows.Forms.ListBox()
+        Me.btnShowQuery = New System.Windows.Forms.Button()
         CType(Me.dgvFieldSelection, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.stsQueryBuilder.SuspendLayout()
         Me.MenuStrip1.SuspendLayout()
@@ -112,39 +117,40 @@ Partial Class SQLBuilder
         Me.lstFields.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lstFields.FormattingEnabled = True
         Me.lstFields.Location = New System.Drawing.Point(758, 93)
-        Me.lstFields.MinimumSize = New System.Drawing.Size(4, 170)
+        Me.lstFields.MinimumSize = New System.Drawing.Size(165, 140)
         Me.lstFields.Name = "lstFields"
-        Me.lstFields.Size = New System.Drawing.Size(169, 160)
+        Me.lstFields.Size = New System.Drawing.Size(169, 134)
         Me.lstFields.TabIndex = 17
         '
-        'btnMoveUP
+        'btnMoveSelectFieldsUP
         '
-        Me.btnMoveUP.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnMoveUP.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnMoveUP.Location = New System.Drawing.Point(953, 94)
-        Me.btnMoveUP.Name = "btnMoveUP"
-        Me.btnMoveUP.Size = New System.Drawing.Size(39, 33)
-        Me.btnMoveUP.TabIndex = 18
-        Me.btnMoveUP.Text = "▲"
-        Me.btnMoveUP.UseVisualStyleBackColor = True
+        Me.btnMoveSelectFieldsUP.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnMoveSelectFieldsUP.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnMoveSelectFieldsUP.Location = New System.Drawing.Point(953, 94)
+        Me.btnMoveSelectFieldsUP.Name = "btnMoveSelectFieldsUP"
+        Me.btnMoveSelectFieldsUP.Size = New System.Drawing.Size(39, 33)
+        Me.btnMoveSelectFieldsUP.TabIndex = 18
+        Me.btnMoveSelectFieldsUP.Text = "▲"
+        Me.btnMoveSelectFieldsUP.UseVisualStyleBackColor = True
         '
-        'btnMoveDOWN
+        'btnMoveSelectFieldsDOWN
         '
-        Me.btnMoveDOWN.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnMoveDOWN.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnMoveDOWN.Location = New System.Drawing.Point(953, 134)
-        Me.btnMoveDOWN.Name = "btnMoveDOWN"
-        Me.btnMoveDOWN.Size = New System.Drawing.Size(39, 31)
-        Me.btnMoveDOWN.TabIndex = 19
-        Me.btnMoveDOWN.Text = "▼"
-        Me.btnMoveDOWN.UseVisualStyleBackColor = True
+        Me.btnMoveSelectFieldsDOWN.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnMoveSelectFieldsDOWN.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnMoveSelectFieldsDOWN.Location = New System.Drawing.Point(953, 134)
+        Me.btnMoveSelectFieldsDOWN.Name = "btnMoveSelectFieldsDOWN"
+        Me.btnMoveSelectFieldsDOWN.Size = New System.Drawing.Size(39, 31)
+        Me.btnMoveSelectFieldsDOWN.TabIndex = 19
+        Me.btnMoveSelectFieldsDOWN.Text = "▼"
+        Me.btnMoveSelectFieldsDOWN.UseVisualStyleBackColor = True
         '
         'btnSelectFields
         '
         Me.btnSelectFields.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnSelectFields.Location = New System.Drawing.Point(614, 93)
+        Me.btnSelectFields.Location = New System.Drawing.Point(608, 93)
+        Me.btnSelectFields.MinimumSize = New System.Drawing.Size(140, 0)
         Me.btnSelectFields.Name = "btnSelectFields"
-        Me.btnSelectFields.Size = New System.Drawing.Size(110, 23)
+        Me.btnSelectFields.Size = New System.Drawing.Size(140, 23)
         Me.btnSelectFields.TabIndex = 20
         Me.btnSelectFields.Text = "Select Fields ->"
         Me.btnSelectFields.UseVisualStyleBackColor = True
@@ -185,49 +191,51 @@ Partial Class SQLBuilder
         'btnSelectOrderBy
         '
         Me.btnSelectOrderBy.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnSelectOrderBy.Location = New System.Drawing.Point(614, 490)
+        Me.btnSelectOrderBy.Location = New System.Drawing.Point(608, 537)
+        Me.btnSelectOrderBy.MinimumSize = New System.Drawing.Size(140, 0)
         Me.btnSelectOrderBy.Name = "btnSelectOrderBy"
-        Me.btnSelectOrderBy.Size = New System.Drawing.Size(110, 23)
+        Me.btnSelectOrderBy.Size = New System.Drawing.Size(140, 23)
         Me.btnSelectOrderBy.TabIndex = 27
-        Me.btnSelectOrderBy.Text = "Select OrderBy ->"
+        Me.btnSelectOrderBy.Text = "Select OrderBy Fields ->"
         Me.btnSelectOrderBy.UseVisualStyleBackColor = True
         '
-        'btnMoveOrderByDown
+        'btnMoveOrderByFieldsDown
         '
-        Me.btnMoveOrderByDown.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnMoveOrderByDown.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnMoveOrderByDown.Location = New System.Drawing.Point(953, 531)
-        Me.btnMoveOrderByDown.Name = "btnMoveOrderByDown"
-        Me.btnMoveOrderByDown.Size = New System.Drawing.Size(39, 31)
-        Me.btnMoveOrderByDown.TabIndex = 26
-        Me.btnMoveOrderByDown.Text = "▼"
-        Me.btnMoveOrderByDown.UseVisualStyleBackColor = True
+        Me.btnMoveOrderByFieldsDown.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnMoveOrderByFieldsDown.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnMoveOrderByFieldsDown.Location = New System.Drawing.Point(953, 578)
+        Me.btnMoveOrderByFieldsDown.Name = "btnMoveOrderByFieldsDown"
+        Me.btnMoveOrderByFieldsDown.Size = New System.Drawing.Size(39, 31)
+        Me.btnMoveOrderByFieldsDown.TabIndex = 26
+        Me.btnMoveOrderByFieldsDown.Text = "▼"
+        Me.btnMoveOrderByFieldsDown.UseVisualStyleBackColor = True
         '
-        'btnMoveOrderByUp
+        'btnMoveOrderByFieldsUp
         '
-        Me.btnMoveOrderByUp.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnMoveOrderByUp.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnMoveOrderByUp.Location = New System.Drawing.Point(953, 491)
-        Me.btnMoveOrderByUp.Name = "btnMoveOrderByUp"
-        Me.btnMoveOrderByUp.Size = New System.Drawing.Size(39, 33)
-        Me.btnMoveOrderByUp.TabIndex = 25
-        Me.btnMoveOrderByUp.Text = "▲"
-        Me.btnMoveOrderByUp.UseVisualStyleBackColor = True
+        Me.btnMoveOrderByFieldsUp.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnMoveOrderByFieldsUp.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnMoveOrderByFieldsUp.Location = New System.Drawing.Point(953, 538)
+        Me.btnMoveOrderByFieldsUp.Name = "btnMoveOrderByFieldsUp"
+        Me.btnMoveOrderByFieldsUp.Size = New System.Drawing.Size(39, 33)
+        Me.btnMoveOrderByFieldsUp.TabIndex = 25
+        Me.btnMoveOrderByFieldsUp.Text = "▲"
+        Me.btnMoveOrderByFieldsUp.UseVisualStyleBackColor = True
         '
         'chklstOrderBY
         '
         Me.chklstOrderBY.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.chklstOrderBY.FormattingEnabled = True
-        Me.chklstOrderBY.Location = New System.Drawing.Point(758, 490)
+        Me.chklstOrderBY.Location = New System.Drawing.Point(758, 537)
+        Me.chklstOrderBY.MinimumSize = New System.Drawing.Size(165, 140)
         Me.chklstOrderBY.Name = "chklstOrderBY"
-        Me.chklstOrderBY.Size = New System.Drawing.Size(169, 169)
+        Me.chklstOrderBY.Size = New System.Drawing.Size(169, 139)
         Me.chklstOrderBY.TabIndex = 28
         '
         'Label5
         '
         Me.Label5.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(615, 471)
+        Me.Label5.Location = New System.Drawing.Point(615, 519)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(222, 13)
         Me.Label5.TabIndex = 29
@@ -258,9 +266,10 @@ Partial Class SQLBuilder
         'btnAddWhereFields
         '
         Me.btnAddWhereFields.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnAddWhereFields.Location = New System.Drawing.Point(618, 283)
+        Me.btnAddWhereFields.Location = New System.Drawing.Point(608, 237)
+        Me.btnAddWhereFields.MinimumSize = New System.Drawing.Size(140, 0)
         Me.btnAddWhereFields.Name = "btnAddWhereFields"
-        Me.btnAddWhereFields.Size = New System.Drawing.Size(119, 23)
+        Me.btnAddWhereFields.Size = New System.Drawing.Size(140, 23)
         Me.btnAddWhereFields.TabIndex = 31
         Me.btnAddWhereFields.Text = "Add Where Fields ->"
         Me.btnAddWhereFields.UseVisualStyleBackColor = True
@@ -269,16 +278,16 @@ Partial Class SQLBuilder
         '
         Me.lstWhereFields.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lstWhereFields.FormattingEnabled = True
-        Me.lstWhereFields.Location = New System.Drawing.Point(758, 283)
-        Me.lstWhereFields.MinimumSize = New System.Drawing.Size(4, 170)
+        Me.lstWhereFields.Location = New System.Drawing.Point(758, 237)
+        Me.lstWhereFields.MinimumSize = New System.Drawing.Size(165, 140)
         Me.lstWhereFields.Name = "lstWhereFields"
-        Me.lstWhereFields.Size = New System.Drawing.Size(169, 160)
+        Me.lstWhereFields.Size = New System.Drawing.Size(169, 134)
         Me.lstWhereFields.TabIndex = 32
         '
         'btnAddWhere
         '
         Me.btnAddWhere.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnAddWhere.Location = New System.Drawing.Point(942, 283)
+        Me.btnAddWhere.Location = New System.Drawing.Point(942, 237)
         Me.btnAddWhere.Name = "btnAddWhere"
         Me.btnAddWhere.Size = New System.Drawing.Size(72, 23)
         Me.btnAddWhere.TabIndex = 33
@@ -295,11 +304,69 @@ Partial Class SQLBuilder
         Me.btnClose.Text = "Close"
         Me.btnClose.UseVisualStyleBackColor = True
         '
+        'btnAddGroupByFields
+        '
+        Me.btnAddGroupByFields.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnAddGroupByFields.Location = New System.Drawing.Point(608, 381)
+        Me.btnAddGroupByFields.Name = "btnAddGroupByFields"
+        Me.btnAddGroupByFields.Size = New System.Drawing.Size(140, 23)
+        Me.btnAddGroupByFields.TabIndex = 38
+        Me.btnAddGroupByFields.Text = "Select Group By Fields ->"
+        Me.btnAddGroupByFields.UseVisualStyleBackColor = True
+        '
+        'btnMoveGroupByFieldsDown
+        '
+        Me.btnMoveGroupByFieldsDown.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnMoveGroupByFieldsDown.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnMoveGroupByFieldsDown.Location = New System.Drawing.Point(953, 422)
+        Me.btnMoveGroupByFieldsDown.Name = "btnMoveGroupByFieldsDown"
+        Me.btnMoveGroupByFieldsDown.Size = New System.Drawing.Size(39, 31)
+        Me.btnMoveGroupByFieldsDown.TabIndex = 37
+        Me.btnMoveGroupByFieldsDown.Text = "▼"
+        Me.btnMoveGroupByFieldsDown.UseVisualStyleBackColor = True
+        '
+        'btnMoveGroupByFieldsUp
+        '
+        Me.btnMoveGroupByFieldsUp.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnMoveGroupByFieldsUp.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnMoveGroupByFieldsUp.Location = New System.Drawing.Point(953, 382)
+        Me.btnMoveGroupByFieldsUp.Name = "btnMoveGroupByFieldsUp"
+        Me.btnMoveGroupByFieldsUp.Size = New System.Drawing.Size(39, 33)
+        Me.btnMoveGroupByFieldsUp.TabIndex = 36
+        Me.btnMoveGroupByFieldsUp.Text = "▲"
+        Me.btnMoveGroupByFieldsUp.UseVisualStyleBackColor = True
+        '
+        'lstGroupByFields
+        '
+        Me.lstGroupByFields.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lstGroupByFields.FormattingEnabled = True
+        Me.lstGroupByFields.Location = New System.Drawing.Point(758, 381)
+        Me.lstGroupByFields.MinimumSize = New System.Drawing.Size(165, 140)
+        Me.lstGroupByFields.Name = "lstGroupByFields"
+        Me.lstGroupByFields.Size = New System.Drawing.Size(169, 134)
+        Me.lstGroupByFields.TabIndex = 35
+        '
+        'btnShowQuery
+        '
+        Me.btnShowQuery.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnShowQuery.Location = New System.Drawing.Point(608, 46)
+        Me.btnShowQuery.MinimumSize = New System.Drawing.Size(140, 0)
+        Me.btnShowQuery.Name = "btnShowQuery"
+        Me.btnShowQuery.Size = New System.Drawing.Size(140, 23)
+        Me.btnShowQuery.TabIndex = 39
+        Me.btnShowQuery.Text = "Show Query"
+        Me.btnShowQuery.UseVisualStyleBackColor = True
+        '
         'SQLBuilder
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1030, 702)
+        Me.Controls.Add(Me.btnShowQuery)
+        Me.Controls.Add(Me.btnAddGroupByFields)
+        Me.Controls.Add(Me.btnMoveGroupByFieldsDown)
+        Me.Controls.Add(Me.btnMoveGroupByFieldsUp)
+        Me.Controls.Add(Me.lstGroupByFields)
         Me.Controls.Add(Me.btnClose)
         Me.Controls.Add(Me.btnAddWhere)
         Me.Controls.Add(Me.lstWhereFields)
@@ -307,15 +374,15 @@ Partial Class SQLBuilder
         Me.Controls.Add(Me.Label5)
         Me.Controls.Add(Me.chklstOrderBY)
         Me.Controls.Add(Me.btnSelectOrderBy)
-        Me.Controls.Add(Me.btnMoveOrderByDown)
-        Me.Controls.Add(Me.btnMoveOrderByUp)
+        Me.Controls.Add(Me.btnMoveOrderByFieldsDown)
+        Me.Controls.Add(Me.btnMoveOrderByFieldsUp)
         Me.Controls.Add(Me.btnSelectAll)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.stsQueryBuilder)
         Me.Controls.Add(Me.MenuStrip1)
         Me.Controls.Add(Me.btnSelectFields)
-        Me.Controls.Add(Me.btnMoveDOWN)
-        Me.Controls.Add(Me.btnMoveUP)
+        Me.Controls.Add(Me.btnMoveSelectFieldsDOWN)
+        Me.Controls.Add(Me.btnMoveSelectFieldsUP)
         Me.Controls.Add(Me.lstFields)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.txtDatasetName)
@@ -343,16 +410,16 @@ Partial Class SQLBuilder
     Friend WithEvents Label1 As Label
     Friend WithEvents txtDatasetName As TextBox
     Friend WithEvents lstFields As ListBox
-    Friend WithEvents btnMoveUP As Button
-    Friend WithEvents btnMoveDOWN As Button
+    Friend WithEvents btnMoveSelectFieldsUP As Button
+    Friend WithEvents btnMoveSelectFieldsDOWN As Button
     Friend WithEvents btnSelectFields As Button
     Friend WithEvents stsQueryBuilder As StatusStrip
     Friend WithEvents Label2 As Label
     Friend WithEvents stsQueryBuilderLabel1 As ToolStripStatusLabel
     Friend WithEvents btnSelectAll As Button
     Friend WithEvents btnSelectOrderBy As Button
-    Friend WithEvents btnMoveOrderByDown As Button
-    Friend WithEvents btnMoveOrderByUp As Button
+    Friend WithEvents btnMoveOrderByFieldsDown As Button
+    Friend WithEvents btnMoveOrderByFieldsUp As Button
     Friend WithEvents chklstOrderBY As CheckedListBox
     Friend WithEvents Label5 As Label
     Friend WithEvents ViewToolStripMenuItem As ToolStripMenuItem
@@ -362,4 +429,9 @@ Partial Class SQLBuilder
     Friend WithEvents lstWhereFields As ListBox
     Friend WithEvents btnAddWhere As Button
     Friend WithEvents btnClose As Button
+    Friend WithEvents btnAddGroupByFields As Button
+    Friend WithEvents btnMoveGroupByFieldsDown As Button
+    Friend WithEvents btnMoveGroupByFieldsUp As Button
+    Friend WithEvents lstGroupByFields As ListBox
+    Friend WithEvents btnShowQuery As Button
 End Class

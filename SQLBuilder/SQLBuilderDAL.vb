@@ -20,15 +20,19 @@ Public Class SQLBuilderDAL
             "DatasetID " &
             "FROM ebi7020t " &
             "ORDER BY DatasetID"
-        cn.Open()
-        Dim cm As OdbcCommand = cn.CreateCommand 'Create a command object via the connection
-        cm.CommandTimeout = 0
-        cm.CommandType = CommandType.Text
-        cm.CommandText = SQLStatement
-        Dim da As New OdbcDataAdapter(cm)
-        Dim ds As New DataSet
-        da.Fill(ds)
-        Return ds.Tables(0)
+        Try
+            cn.Open()
+            Dim cm As OdbcCommand = cn.CreateCommand 'Create a command object via the connection
+            cm.CommandTimeout = 0
+            cm.CommandType = CommandType.Text
+            cm.CommandText = SQLStatement
+            Dim da As New OdbcDataAdapter(cm)
+            Dim ds As New DataSet
+            da.Fill(ds)
+            Return ds.Tables(0)
+        Catch ex As Exception
+            MsgBox("DB ERROR: " & ex.Message)
+        End Try
 
     End Function
 
@@ -41,15 +45,19 @@ Public Class SQLBuilderDAL
             "FROM ebi7023t " &
             "Where DatasetID= " & DatasetID & " " &
             "ORDER BY Sequence"
-        cn.Open()
-        Dim cm As OdbcCommand = cn.CreateCommand 'Create a command object via the connection
-        cm.CommandTimeout = 0
-        cm.CommandType = CommandType.Text
-        cm.CommandText = SQLStatement
-        Dim da As New OdbcDataAdapter(cm)
-        Dim ds As New DataSet
-        da.Fill(ds)
-        Return ds.Tables(0)
+        Try
+            cn.Open()
+            Dim cm As OdbcCommand = cn.CreateCommand 'Create a command object via the connection
+            cm.CommandTimeout = 0
+            cm.CommandType = CommandType.Text
+            cm.CommandText = SQLStatement
+            Dim da As New OdbcDataAdapter(cm)
+            Dim ds As New DataSet
+            da.Fill(ds)
+            Return ds.Tables(0)
+        Catch ex As Exception
+            MsgBox("DB ERROR: " & ex.Message)
+        End Try
 
     End Function
 
@@ -65,19 +73,19 @@ Public Class SQLBuilderDAL
         Dim port As String = "3306"
 
         GetColumnsMYSQL = Nothing
-        'ConnString = setupMySQLconnection("localhost", "simplequerybuilder", "root", "root", "3306", ErrMessage)
-        ConnString = String.Format("server={0}; user id={1}; password={2}; database={3}; Convert Zero Datetime={4}; port={5}; pooling=false", Server, USERNAME, password, DbaseName, ZeroDatetime, port)
-        Dim cn As New MySqlConnection(ConnString)
-        SQLStatement = "SELECT " &
+        Try
+            'ConnString = setupMySQLconnection("localhost", "simplequerybuilder", "root", "root", "3306", ErrMessage)
+            ConnString = String.Format("server={0}; user id={1}; password={2}; database={3}; Convert Zero Datetime={4}; port={5}; pooling=false", Server, USERNAME, password, DbaseName, ZeroDatetime, port)
+            Dim cn As New MySqlConnection(ConnString)
+            cn.Open()
+            SQLStatement = "SELECT " &
             "trim(ColumnName) as ""Column Name"", " &
             "trim(ColumnText) as ""Column Text"" " &
             "FROM ebi7023t " &
             "Where DatasetID= " & DatasetID & " " &
             "ORDER BY Sequence"
-        Try
-            cn.Open()
-            Dim cmd As New MySqlCommand
 
+            Dim cmd As New MySqlCommand
             cmd.Connection = cn
             cmd.CommandTimeout = 0
             cmd.CommandType = CommandType.Text
@@ -103,10 +111,12 @@ Public Class SQLBuilderDAL
         Dim port As String = "3306"
 
         GetHeaderListMYSQL = Nothing
-        'ConnString = setupMySQLconnection("localhost", "simplequerybuilder", "root", "root", "3306", ErrMessage)
-        ConnString = String.Format("server={0}; user id={1}; password={2}; database={3}; Convert Zero Datetime={4}; port={5}; pooling=false", Server, USERNAME, password, DbaseName, ZeroDatetime, port)
-        Dim cn As New MySqlConnection(ConnString)
-        SQLStatement = "SELECT " &
+        Try
+            'ConnString = setupMySQLconnection("localhost", "simplequerybuilder", "root", "root", "3306", ErrMessage)
+            ConnString = String.Format("server={0}; user id={1}; password={2}; database={3}; Convert Zero Datetime={4}; port={5}; pooling=false", Server, USERNAME, password, DbaseName, ZeroDatetime, port)
+            Dim cn As New MySqlConnection(ConnString)
+            cn.Open()
+            SQLStatement = "SELECT " &
             "trim(DatasetName) as ""DataSet Name"", " &
             "trim(DataSetHeaderText) as ""DataSet Header Text"", " &
             "trim(Tablename) as ""Tablename"", " &
@@ -118,10 +128,8 @@ Public Class SQLBuilderDAL
             "DatasetID " &
             "FROM ebi7020t " &
             "ORDER BY DatasetID"
-        Try
-            cn.Open()
-            Dim cmd As New MySqlCommand
 
+            Dim cmd As New MySqlCommand
             cmd.Connection = cn
             cmd.CommandTimeout = 0
             cmd.CommandType = CommandType.Text

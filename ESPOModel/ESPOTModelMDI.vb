@@ -98,8 +98,6 @@
     Private Sub SQLBuilderToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SQLBuilderToolStripMenuItem.Click
 
         Cursor = Cursors.Default
-
-
         stsFW100Label1.Text = "Loading List......"
         Cursor = Cursors.WaitCursor
         Refresh()

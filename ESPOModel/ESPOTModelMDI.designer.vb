@@ -58,6 +58,7 @@ Partial Class ESPOTModelMDI
         '
         Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem, Me.ViewToolStripMenuItem, Me.WindowToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
+        Me.MenuStrip1.MdiWindowListItem = Me.WindowToolStripMenuItem
         Me.MenuStrip1.Name = "MenuStrip1"
         Me.MenuStrip1.Size = New System.Drawing.Size(1324, 24)
         Me.MenuStrip1.TabIndex = 2
@@ -123,49 +124,50 @@ Partial Class ESPOTModelMDI
         '
         Me.WindowToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TileHorizontalToolStripMenuItem, Me.TileVerticalToolStripMenuItem, Me.CascadeToolStripMenuItem, Me.ArrangeToolStripMenuItem, Me.MinimiseAllToolStripMenuItem, Me.RestoreAllToolStripMenuItem, Me.CloseAllToolStripMenuItem})
         Me.WindowToolStripMenuItem.Name = "WindowToolStripMenuItem"
+        Me.WindowToolStripMenuItem.ShortcutKeyDisplayString = "Manage Open Windows"
         Me.WindowToolStripMenuItem.Size = New System.Drawing.Size(63, 20)
         Me.WindowToolStripMenuItem.Text = "Window"
         '
         'TileHorizontalToolStripMenuItem
         '
         Me.TileHorizontalToolStripMenuItem.Name = "TileHorizontalToolStripMenuItem"
-        Me.TileHorizontalToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
+        Me.TileHorizontalToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.TileHorizontalToolStripMenuItem.Text = "Tile Horizontal"
         '
         'TileVerticalToolStripMenuItem
         '
         Me.TileVerticalToolStripMenuItem.Name = "TileVerticalToolStripMenuItem"
-        Me.TileVerticalToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
+        Me.TileVerticalToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.TileVerticalToolStripMenuItem.Text = "Tile Vertical"
         '
         'CascadeToolStripMenuItem
         '
         Me.CascadeToolStripMenuItem.Name = "CascadeToolStripMenuItem"
-        Me.CascadeToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
+        Me.CascadeToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.CascadeToolStripMenuItem.Text = "Cascade"
         '
         'ArrangeToolStripMenuItem
         '
         Me.ArrangeToolStripMenuItem.Name = "ArrangeToolStripMenuItem"
-        Me.ArrangeToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
+        Me.ArrangeToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.ArrangeToolStripMenuItem.Text = "Arrange"
         '
         'MinimiseAllToolStripMenuItem
         '
         Me.MinimiseAllToolStripMenuItem.Name = "MinimiseAllToolStripMenuItem"
-        Me.MinimiseAllToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
+        Me.MinimiseAllToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.MinimiseAllToolStripMenuItem.Text = "Minimise All"
         '
         'RestoreAllToolStripMenuItem
         '
         Me.RestoreAllToolStripMenuItem.Name = "RestoreAllToolStripMenuItem"
-        Me.RestoreAllToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
+        Me.RestoreAllToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.RestoreAllToolStripMenuItem.Text = "Restore All"
         '
         'CloseAllToolStripMenuItem
         '
         Me.CloseAllToolStripMenuItem.Name = "CloseAllToolStripMenuItem"
-        Me.CloseAllToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
+        Me.CloseAllToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.CloseAllToolStripMenuItem.Text = "Close All"
         '
         'tls1

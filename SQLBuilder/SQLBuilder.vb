@@ -47,22 +47,27 @@
         Dim myDAL As New SQLBuilderDAL
         Dim dt As DataTable
 
-        Me.TheDataSetID = DataSetID
-        dgvFieldSelection.Columns.Clear()
-        Dim dgvCheck As New DataGridViewCheckBoxColumn()
-        dgvCheck.HeaderText = "Select Field"
-        dgvCheck.Name = "SelectField"
+        Try
+            Me.Text = "SQL Builder"
+            Me.TheDataSetID = DataSetID
+            dgvFieldSelection.Columns.Clear()
+            Dim dgvCheck As New DataGridViewCheckBoxColumn()
+            dgvCheck.HeaderText = "Select Field"
+            dgvCheck.Name = "SelectField"
 
-        dgvFieldSelection.DataSource = Nothing
-        dt = myDAL.GetColumnsMYSQL(DataSetID)
-        'dt = myDAL.GetColumns(GlobalSession.ConnectString, DataSetID)
-        If dt IsNot Nothing Then
-            If dt.Rows.Count > 0 Then
-                dgvFieldSelection.DataSource = dt
-                dgvFieldSelection.Columns.Add(dgvCheck)
+            dgvFieldSelection.DataSource = Nothing
+            'dt = myDAL.GetColumnsMYSQL(DataSetID)
+            dt = myDAL.GetColumns(GlobalSession.ConnectString, DataSetID)
+            If dt IsNot Nothing Then
+                If dt.Rows.Count > 0 Then
+                    dgvFieldSelection.DataSource = dt
+                    dgvFieldSelection.Columns.Add(dgvCheck)
+                End If
             End If
-        End If
-
+        Catch ex As Exception
+            Cursor = Cursors.Default
+            MsgBox("Populate Error: " & ex.Message)
+        End Try
         Cursor = Cursors.Default
     End Sub
 
@@ -145,6 +150,13 @@
                         If Not IsInList(lstWhereFields, ColumnName) Then
                             lstWhereFields.Items.Add(ColumnName)
                         End If
+                    Case "GROUPBY FIELDS"
+                        If i = 0 Then
+                            lstGroupByFields.Items.Clear()
+                        End If
+                        If Not IsInList(lstGroupByFields, ColumnName) Then
+                            lstGroupByFields.Items.Add(ColumnName)
+                        End If
                     Case "ORDERBY FIELDS"
                         If i = 0 Then
                             chklstOrderBY.Items.Clear()
@@ -161,93 +173,94 @@
         Next
     End Sub
 
-    Sub MoveItemUp()
-        Dim CurrentIDX As Integer
-        Dim strCurrentItem As String
-        Dim NewIDX As Integer
-
-
-        CurrentIDX = lstFields.SelectedIndex
-
-        If CurrentIDX > 0 Then
-            strCurrentItem = lstFields.Items(CurrentIDX)
-            NewIDX = CurrentIDX - 1
-            lstFields.Items.RemoveAt(CurrentIDX)
-            lstFields.Items.Insert(NewIDX, strCurrentItem)
-            lstFields.SelectedIndex = NewIDX
-
-        End If
-
-    End Sub
-
-    Sub MoveItemDown()
-        Dim CurrentIDX As Integer
-        Dim strCurrentItem As String
-        Dim NewIDX As Integer
-
-        CurrentIDX = lstFields.SelectedIndex
-
-        If CurrentIDX < lstFields.Items.Count - 1 And CurrentIDX > -1 Then
-            strCurrentItem = lstFields.Items(CurrentIDX)
-            NewIDX = CurrentIDX + 1
-            lstFields.Items.RemoveAt(CurrentIDX)
-            lstFields.Items.Insert(NewIDX, strCurrentItem)
-            lstFields.SelectedIndex = NewIDX
-        End If
-    End Sub
-
-    Sub MoveOrderByItemUp()
-        Dim CurrentIDX As Integer
-        Dim strCurrentItem As String
-        Dim NewIDX As Integer
-        Dim IsSelected As Boolean
-
-        CurrentIDX = chklstOrderBY.SelectedIndex
-
-        If CurrentIDX > 0 Then
-            IsSelected = chklstOrderBY.GetItemChecked(CurrentIDX)
-            strCurrentItem = chklstOrderBY.Items(CurrentIDX)
-            NewIDX = CurrentIDX - 1
-            chklstOrderBY.Items.RemoveAt(CurrentIDX)
-            chklstOrderBY.Items.Insert(NewIDX, strCurrentItem)
-            chklstOrderBY.SelectedIndex = NewIDX
-            chklstOrderBY.SetItemChecked(NewIDX, IsSelected)
-        End If
-
-    End Sub
-
-    Sub MoveOrderByItemDown()
-        Dim CurrentIDX As Integer
-        Dim strCurrentItem As String
-        Dim NewIDX As Integer
-        Dim IsSelected As Boolean
-
-        CurrentIDX = chklstOrderBY.SelectedIndex
-
-        If CurrentIDX < chklstOrderBY.Items.Count - 1 And CurrentIDX > -1 Then
-            IsSelected = chklstOrderBY.GetItemChecked(CurrentIDX)
-            strCurrentItem = chklstOrderBY.Items(CurrentIDX)
-            NewIDX = CurrentIDX + 1
-            chklstOrderBY.Items.RemoveAt(CurrentIDX)
-            chklstOrderBY.Items.Insert(NewIDX, strCurrentItem)
-            chklstOrderBY.SelectedIndex = NewIDX
-            chklstOrderBY.SetItemChecked(NewIDX, IsSelected)
-        End If
-    End Sub
-
     Private Sub btnSelectFields_Click(sender As Object, e As EventArgs) Handles btnSelectFields.Click
         SelectFields("SELECT FIELDS")
+    End Sub
+
+    Private Sub btnAddWhereFields_Click(sender As Object, e As EventArgs) Handles btnAddWhereFields.Click
+        SelectFields("WHERE FIELDS")
+    End Sub
+
+    Private Sub btnAddGroupByFields_Click(sender As Object, e As EventArgs) Handles btnAddGroupByFields.Click
+        SelectFields("GROUPBY FIELDS")
+    End Sub
+
+    Private Sub btnSelectOrderBy_Click(sender As Object, e As EventArgs) Handles btnSelectOrderBy.Click
+        SelectFields("ORDERBY FIELDS")
+    End Sub
+
+    Sub MoveItemUp(ByRef lstBox As ListBox)
+        Dim CurrentIDX As Integer
+        Dim strCurrentItem As String
+        Dim NewIDX As Integer
+
+
+        CurrentIDX = lstBox.SelectedIndex
+
+        If CurrentIDX > 0 Then
+            strCurrentItem = lstBox.Items(CurrentIDX)
+            NewIDX = CurrentIDX - 1
+            lstBox.Items.RemoveAt(CurrentIDX)
+            lstBox.Items.Insert(NewIDX, strCurrentItem)
+            lstBox.SelectedIndex = NewIDX
+
+        End If
 
     End Sub
 
-    Private Sub btnMoveUP_Click(sender As Object, e As EventArgs) Handles btnMoveUP.Click
-        MoveItemUp()
+    Sub MoveItemDown(ByRef lstBox As ListBox)
+        Dim CurrentIDX As Integer
+        Dim strCurrentItem As String
+        Dim NewIDX As Integer
+
+        CurrentIDX = lstBox.SelectedIndex
+
+        If CurrentIDX < lstBox.Items.Count - 1 And CurrentIDX > -1 Then
+            strCurrentItem = lstBox.Items(CurrentIDX)
+            NewIDX = CurrentIDX + 1
+            lstBox.Items.RemoveAt(CurrentIDX)
+            lstBox.Items.Insert(NewIDX, strCurrentItem)
+            lstBox.SelectedIndex = NewIDX
+        End If
+    End Sub
+
+    Sub MoveCheckedListItemUp(chklstBox As CheckedListBox)
+        Dim CurrentIDX As Integer
+        Dim strCurrentItem As String
+        Dim NewIDX As Integer
+        Dim IsSelected As Boolean
+
+        CurrentIDX = chklstBox.SelectedIndex
+
+        If CurrentIDX > 0 Then
+            IsSelected = chklstBox.GetItemChecked(CurrentIDX)
+            strCurrentItem = chklstBox.Items(CurrentIDX)
+            NewIDX = CurrentIDX - 1
+            chklstBox.Items.RemoveAt(CurrentIDX)
+            chklstBox.Items.Insert(NewIDX, strCurrentItem)
+            chklstBox.SelectedIndex = NewIDX
+            chklstBox.SetItemChecked(NewIDX, IsSelected)
+        End If
 
     End Sub
 
-    Private Sub btnMoveDOWN_Click(sender As Object, e As EventArgs) Handles btnMoveDOWN.Click
-        MoveItemDown()
+    Sub MoveCheckedListItemDown(chklstBox As CheckedListBox)
+        Dim CurrentIDX As Integer
+        Dim strCurrentItem As String
+        Dim NewIDX As Integer
+        Dim IsSelected As Boolean
 
+        CurrentIDX = chklstBox.SelectedIndex
+
+        If CurrentIDX < chklstBox.Items.Count - 1 And CurrentIDX > -1 Then
+            IsSelected = chklstBox.GetItemChecked(CurrentIDX)
+            strCurrentItem = chklstBox.Items(CurrentIDX)
+            NewIDX = CurrentIDX + 1
+            chklstBox.Items.RemoveAt(CurrentIDX)
+            chklstBox.Items.Insert(NewIDX, strCurrentItem)
+            chklstBox.SelectedIndex = NewIDX
+            chklstBox.SetItemChecked(NewIDX, IsSelected)
+        End If
     End Sub
 
     Function BuildQueryFromSelection() As String
@@ -258,9 +271,10 @@
         Dim FieldID As String
         Dim FieldsSelected As String
         Dim SelectPart As String
-        Dim FinalQuery As String
+        Dim GroupByFields As String
         Dim OrderByFields As String
         Dim IsChecked As Boolean
+        Dim FinalQuery As String
 
         BuildQueryFromSelection = ""
         SelectPart = "SELECT "
@@ -274,6 +288,14 @@
                 FieldsSelected += Trim(ColumnName) & " AS """ & ColumnText & """"
             Else
                 FieldsSelected += "," & Trim(ColumnName) & " AS """ & ColumnText & """"
+            End If
+        Next
+        For i As Integer = 0 To lstGroupByFields.Items.Count - 1
+            ColumnName = lstGroupByFields.Items(i)
+            If GroupByFields = "" Then
+                GroupByFields += Trim(ColumnName)
+            Else
+                GroupByFields += "," & Trim(ColumnName)
             End If
         Next
         For i As Integer = 0 To chklstOrderBY.Items.Count - 1
@@ -292,6 +314,11 @@
         If myWhereConditions.GetMyWhereCondtions <> "" Then
             SelectPart += " WHERE " & myWhereConditions.GetMyWhereCondtions
         End If
+        'GROUPBY:
+        If GroupByFields <> "" Then
+            SelectPart += " GROUP BY " & GroupByFields
+        End If
+        'ORDERBY:
         If OrderByFields <> "" Then
             SelectPart += " ORDER BY " & OrderByFields
         End If
@@ -330,24 +357,9 @@
         Next
     End Sub
 
-    Private Sub btnSelectOrderBy_Click(sender As Object, e As EventArgs) Handles btnSelectOrderBy.Click
-        SelectFields("ORDERBY FIELDS")
-    End Sub
-
-    Private Sub btnMoveOrderByUp_Click(sender As Object, e As EventArgs) Handles btnMoveOrderByUp.Click
-        MoveOrderByItemUp()
-
-    End Sub
-
-    Private Sub btnMoveOrderByDown_Click(sender As Object, e As EventArgs) Handles btnMoveOrderByDown.Click
-        MoveOrderByItemDown()
-
-    End Sub
-
-    Private Sub SQLQueryToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SQLQueryToolStripMenuItem.Click
+    Sub ShowQueryForm()
         Dim FinalQuery As String
         Dim App As New ViewSQL
-
 
         Cursor = Cursors.Default
         FinalQuery = BuildQueryFromSelection()
@@ -362,6 +374,11 @@
         'App.Visible = True
         stsQueryBuilderLabel1.Text = ""
         Cursor = Cursors.Default
+    End Sub
+
+    Private Sub SQLQueryToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SQLQueryToolStripMenuItem.Click
+        ShowQueryForm()
+
     End Sub
 
     Private Sub btnAddWhere_Click(sender As Object, e As EventArgs) Handles btnAddWhere.Click
@@ -391,12 +408,37 @@
         Cursor = Cursors.Default
     End Sub
 
-    Private Sub btnAddWhereFields_Click(sender As Object, e As EventArgs) Handles btnAddWhereFields.Click
-        SelectFields("WHERE FIELDS")
+    Private Sub btnMoveOrderByFieldsDown_Click(sender As Object, e As EventArgs) Handles btnMoveOrderByFieldsDown.Click
+        MoveCheckedListItemDown(chklstOrderBY)
+    End Sub
+
+    Private Sub btnMoveOrderByFieldsUp_Click(sender As Object, e As EventArgs) Handles btnMoveOrderByFieldsUp.Click
+        MoveCheckedListItemUp(chklstOrderBY)
+    End Sub
+
+    Private Sub btnMoveGroupByFieldsUp_Click(sender As Object, e As EventArgs) Handles btnMoveGroupByFieldsUp.Click
+        MoveItemUp(lstGroupByFields)
+    End Sub
+
+    Private Sub btnMoveGroupByFieldsDown_Click(sender As Object, e As EventArgs) Handles btnMoveGroupByFieldsDown.Click
+        MoveItemDown(lstGroupByFields)
+    End Sub
+
+    Private Sub btnMoveSelectFieldsUP_Click(sender As Object, e As EventArgs) Handles btnMoveSelectFieldsUP.Click
+        MoveItemUp(lstFields)
+    End Sub
+
+    Private Sub btnMoveSelectFieldsDOWN_Click(sender As Object, e As EventArgs) Handles btnMoveSelectFieldsDOWN.Click
+        MoveItemDown(lstFields)
     End Sub
 
     Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
         Close()
+
+    End Sub
+
+    Private Sub btnShowQuery_Click(sender As Object, e As EventArgs) Handles btnShowQuery.Click
+        ShowQueryForm()
 
     End Sub
 End Class

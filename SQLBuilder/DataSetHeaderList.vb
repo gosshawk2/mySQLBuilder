@@ -26,20 +26,20 @@
         Dim dt As DataTable
         Dim Tablename As String
 
-        dgvHeaderList.Columns.Clear()
-        'Dim dgvCheck As New DataGridViewCheckBoxColumn()
-        'dgvCheck.HeaderText = "Select Field"
-        'dgvCheck.Name = "SelectField"
+        Me.Text = "SQL Builder Header List"
+        Try
+            dgvHeaderList.Columns.Clear()
+            dgvHeaderList.DataSource = Nothing
+            'dt = myDAL.GetHeaderListMYSQL()
+            dt = myDAL.GetHeaderList(GlobalSession.ConnectString)
 
-        dgvHeaderList.DataSource = Nothing
-        dt = myDAL.GetHeaderListMYSQL()
-        'dt = myDAL.GetHeaderList(GlobalSession.ConnectString)
-
-        If dt.Rows.Count > 0 Then
-            dgvHeaderList.DataSource = dt
-        End If
-
-        'dgvHeaderList.Columns.Add(dgvCheck)
+            If dt.Rows.Count > 0 Then
+                dgvHeaderList.DataSource = dt
+            End If
+        Catch ex As Exception
+            Cursor = Cursors.Default
+            MsgBox("Populate Error: " & ex.Message)
+        End Try
         Cursor = Cursors.Default
     End Sub
 
