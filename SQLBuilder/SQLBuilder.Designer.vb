@@ -53,6 +53,10 @@ Partial Class SQLBuilder
         Me.btnMoveGroupByFieldsUp = New System.Windows.Forms.Button()
         Me.lstGroupByFields = New System.Windows.Forms.ListBox()
         Me.btnShowQuery = New System.Windows.Forms.Button()
+        Me.btnRemoveSelectedFields = New System.Windows.Forms.Button()
+        Me.btnRemoveSelectedWHEREFields = New System.Windows.Forms.Button()
+        Me.btnRemoveSelectedGroupByFields = New System.Windows.Forms.Button()
+        Me.btnRemoveOrderByFields = New System.Windows.Forms.Button()
         CType(Me.dgvFieldSelection, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.stsQueryBuilder.SuspendLayout()
         Me.MenuStrip1.SuspendLayout()
@@ -357,11 +361,59 @@ Partial Class SQLBuilder
         Me.btnShowQuery.Text = "Show Query"
         Me.btnShowQuery.UseVisualStyleBackColor = True
         '
+        'btnRemoveSelectedFields
+        '
+        Me.btnRemoveSelectedFields.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnRemoveSelectedFields.Location = New System.Drawing.Point(608, 122)
+        Me.btnRemoveSelectedFields.MinimumSize = New System.Drawing.Size(140, 0)
+        Me.btnRemoveSelectedFields.Name = "btnRemoveSelectedFields"
+        Me.btnRemoveSelectedFields.Size = New System.Drawing.Size(140, 23)
+        Me.btnRemoveSelectedFields.TabIndex = 40
+        Me.btnRemoveSelectedFields.Text = "<- Remove "
+        Me.btnRemoveSelectedFields.UseVisualStyleBackColor = True
+        '
+        'btnRemoveSelectedWHEREFields
+        '
+        Me.btnRemoveSelectedWHEREFields.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnRemoveSelectedWHEREFields.Location = New System.Drawing.Point(608, 266)
+        Me.btnRemoveSelectedWHEREFields.MinimumSize = New System.Drawing.Size(140, 0)
+        Me.btnRemoveSelectedWHEREFields.Name = "btnRemoveSelectedWHEREFields"
+        Me.btnRemoveSelectedWHEREFields.Size = New System.Drawing.Size(140, 23)
+        Me.btnRemoveSelectedWHEREFields.TabIndex = 41
+        Me.btnRemoveSelectedWHEREFields.Text = "<- Remove "
+        Me.btnRemoveSelectedWHEREFields.UseVisualStyleBackColor = True
+        '
+        'btnRemoveSelectedGroupByFields
+        '
+        Me.btnRemoveSelectedGroupByFields.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnRemoveSelectedGroupByFields.Location = New System.Drawing.Point(608, 410)
+        Me.btnRemoveSelectedGroupByFields.MinimumSize = New System.Drawing.Size(140, 0)
+        Me.btnRemoveSelectedGroupByFields.Name = "btnRemoveSelectedGroupByFields"
+        Me.btnRemoveSelectedGroupByFields.Size = New System.Drawing.Size(140, 23)
+        Me.btnRemoveSelectedGroupByFields.TabIndex = 42
+        Me.btnRemoveSelectedGroupByFields.Text = "<- Remove "
+        Me.btnRemoveSelectedGroupByFields.UseVisualStyleBackColor = True
+        '
+        'btnRemoveOrderByFields
+        '
+        Me.btnRemoveOrderByFields.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnRemoveOrderByFields.Location = New System.Drawing.Point(608, 566)
+        Me.btnRemoveOrderByFields.MinimumSize = New System.Drawing.Size(140, 0)
+        Me.btnRemoveOrderByFields.Name = "btnRemoveOrderByFields"
+        Me.btnRemoveOrderByFields.Size = New System.Drawing.Size(140, 23)
+        Me.btnRemoveOrderByFields.TabIndex = 43
+        Me.btnRemoveOrderByFields.Text = "<- Remove "
+        Me.btnRemoveOrderByFields.UseVisualStyleBackColor = True
+        '
         'SQLBuilder
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1030, 702)
+        Me.Controls.Add(Me.btnRemoveOrderByFields)
+        Me.Controls.Add(Me.btnRemoveSelectedGroupByFields)
+        Me.Controls.Add(Me.btnRemoveSelectedWHEREFields)
+        Me.Controls.Add(Me.btnRemoveSelectedFields)
         Me.Controls.Add(Me.btnShowQuery)
         Me.Controls.Add(Me.btnAddGroupByFields)
         Me.Controls.Add(Me.btnMoveGroupByFieldsDown)
@@ -434,4 +486,8 @@ Partial Class SQLBuilder
     Friend WithEvents btnMoveGroupByFieldsUp As Button
     Friend WithEvents lstGroupByFields As ListBox
     Friend WithEvents btnShowQuery As Button
+    Friend WithEvents btnRemoveSelectedFields As Button
+    Friend WithEvents btnRemoveSelectedWHEREFields As Button
+    Friend WithEvents btnRemoveSelectedGroupByFields As Button
+    Friend WithEvents btnRemoveOrderByFields As Button
 End Class

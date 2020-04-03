@@ -484,4 +484,40 @@
         End If
 
     End Sub
+
+    Private Sub btnRemoveSelectedFields_Click(sender As Object, e As EventArgs) Handles btnRemoveSelectedFields.Click
+        Dim IDX As Integer
+
+        IDX = lstFields.SelectedIndex
+        If IDX > -1 Then
+            lstFields.Items.RemoveAt(IDX)
+        End If
+    End Sub
+
+    Private Sub btnRemoveSelectedWHEREFields_Click(sender As Object, e As EventArgs) Handles btnRemoveSelectedWHEREFields.Click
+        Dim IDX As Integer
+
+        IDX = lstWhereFields.SelectedIndex
+        If IDX > -1 Then
+            lstWhereFields.Items.RemoveAt(IDX)
+        End If
+    End Sub
+
+    Private Sub btnRemoveSelectedGroupByFields_Click(sender As Object, e As EventArgs) Handles btnRemoveSelectedGroupByFields.Click
+        Dim IDX As Integer
+
+        IDX = lstGroupByFields.SelectedIndex
+        If IDX > -1 Then
+            lstGroupByFields.Items.RemoveAt(IDX)
+        End If
+    End Sub
+
+    Private Sub btnRemoveOrderByFields_Click(sender As Object, e As EventArgs) Handles btnRemoveOrderByFields.Click
+        Dim IDX As Integer
+
+        IDX = chklstOrderBY.SelectedIndex
+        If IDX > -1 Then
+            chklstOrderBY.Items.RemoveAt(IDX)
+        End If
+    End Sub
 End Class
