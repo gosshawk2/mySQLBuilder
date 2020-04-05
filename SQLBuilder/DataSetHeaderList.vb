@@ -30,8 +30,8 @@
         Try
             dgvHeaderList.Columns.Clear()
             dgvHeaderList.DataSource = Nothing
-            'dt = myDAL.GetHeaderListMYSQL()
-            dt = myDAL.GetHeaderList(GlobalSession.ConnectString)
+            dt = myDAL.GetHeaderListMYSQL()
+            'dt = myDAL.GetHeaderList(GlobalSession.ConnectString)
 
             If dt.Rows.Count > 0 Then
                 dgvHeaderList.DataSource = dt
@@ -84,8 +84,8 @@
 
         App.Visible = False
         App.GetParms(GlobalSession, GlobalParms)
-        App.PopulateForm(DataSetID)
-        App.txtTablename.Text = Tablename
+        App.PopulateForm(DataSetID, Nothing)
+        App.cboTables.Text = Tablename
         App.txtDatasetName.Text = DataSetName
         'App.Left = 5
         'App.Height = 5

@@ -10,6 +10,40 @@
         GlobalSession = Session
     End Sub
 
+    Sub BuildDatabaseCombo(csvFilename As String)
+        Dim myDAL As New SQLBuilderDAL
+        Dim csvArray As String(,)
+        Dim TotalFields As Long
+        Dim Message As String
+        Dim TotalRows As Long
+
+        If csvFilename <> "" Then
+            TotalRows = myDAL.CSVFileToArray(csvArray, csvFilename, TotalFields, Message)
+            For i As Long = 1 To TotalRows - 1
+                cboDatabases.Items.Add(csvArray(1, i))
+            Next
+        Else
+            MsgBox("No CSV FILENAME passed")
+        End If
+
+    End Sub
+
+    Sub BuildTableCombo(DatabaseName As String)
+        Dim myDAL As New SQLBuilderDAL
+        Dim dt As DataTable
+
+        dt = myDAL.GetTablesFromDB(DatabaseName)
+        If dt.Rows.Count > 0 Then
+            For i As Integer = 0 To dt.Rows.Count - 1
+                cboTables.Items.Add(dt.Rows(i)(0))
+            Next
+
+        End If
+
+    End Sub
+
+    'GetFieldsFromTable
+
     Private Sub SQLBuilder_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         '
         Me.KeyPreview = True
@@ -42,7 +76,7 @@
         End Set
     End Property
 
-    Sub PopulateForm(DataSetID As Integer)
+    Sub PopulateForm(DataSetID As Integer, myDT As DataTable)
         Cursor = Cursors.WaitCursor
         Dim myDAL As New SQLBuilderDAL
         Dim dt As DataTable
@@ -51,6 +85,8 @@
             Me.Text = "SQL Builder"
             Me.TheDataSetID = DataSetID
             dgvFieldSelection.Columns.Clear()
+            BuildDatabaseCombo("Databases.csv")
+
             Dim dgvCheck As New DataGridViewCheckBoxColumn()
             Dim dgvCheckSum As New DataGridViewCheckBoxColumn()
             dgvCheck.HeaderText = "Select Field"
@@ -59,8 +95,13 @@
             dgvCheckSum.Name = "SUM"
 
             dgvFieldSelection.DataSource = Nothing
-            'dt = myDAL.GetColumnsMYSQL(DataSetID)
-            dt = myDAL.GetColumns(GlobalSession.ConnectString, DataSetID)
+            If myDT IsNot Nothing Then
+                dt = myDAL.GetFieldsFromTable(cboTables.Text)
+            Else
+                dt = myDAL.GetColumnsMYSQL(DataSetID)
+            End If
+
+            'dt = myDAL.GetColumns(GlobalSession.ConnectString, DataSetID)
             If dt IsNot Nothing Then
                 If dt.Rows.Count > 0 Then
                     dgvFieldSelection.DataSource = dt
@@ -94,8 +135,17 @@
     End Sub
 
     Private Sub btnRefresh_Click(sender As Object, e As EventArgs) Handles btnRefresh.Click
+        Dim dt As DataTable
+        Dim myDAL As New SQLBuilderDAL
 
-        PopulateForm(Me.TheDataSetID)
+        If cboTables.Text <> "" Then
+            dt = myDAL.GetFieldsFromTable(cboTables.Text)
+            PopulateForm(0, dt)
+        Else
+            PopulateForm(Me.TheDataSetID, Nothing)
+        End If
+
+
         lstFields.Items.Clear()
         lstWhereFields.Items.Clear()
         lstGroupByFields.Items.Clear()
@@ -156,8 +206,14 @@
         End Select
         For i As Integer = 0 To dgvFieldSelection.Rows.Count - 1
             If dgvFieldSelection.Rows(i).Cells("SelectField").Value = True Then
-                ColumnName = dgvFieldSelection.Rows(i).Cells("Column Name").Value
-                ColumnText = dgvFieldSelection.Rows(i).Cells("Column Text").Value
+                ColumnName = dgvFieldSelection.Rows(i).Cells("Column_Name").Value
+                ColumnText = ColumnName
+                For h As Integer = 0 To dgvFieldSelection.Columns.Count - 1
+                    If UCase(dgvFieldSelection.Columns(h).Name) = "COLUMN TEXT" Then
+                        ColumnText = dgvFieldSelection.Rows(i).Cells("Column Text").Value
+                    End If
+                Next
+
                 Select Case UCase(SelectedList)
                     Case "SELECT FIELDS"
                         If Not IsInList(lstFields, ColumnName, ItemIDX) Then
@@ -186,7 +242,12 @@
                 Select Case UCase(SelectedList)
                     Case "SELECT FIELDS"
                         ColumnName = dgvFieldSelection.Rows(i).Cells("Column Name").Value
-                        ColumnText = dgvFieldSelection.Rows(i).Cells("Column Text").Value
+                        ColumnText = ColumnName
+                        For h As Integer = 0 To dgvFieldSelection.Columns.Count - 1
+                            If UCase(dgvFieldSelection.Columns(h).Name) = "COLUMN TEXT" Then
+                                ColumnText = dgvFieldSelection.Rows(i).Cells("Column Text").Value
+                            End If
+                        Next
                         SumItem = "SUM(" & ColumnName & ")"
                         If IsInList(lstFields, ColumnName, ItemIDX) Then
                             lstFields.Items.RemoveAt(ItemIDX)
@@ -309,7 +370,7 @@
         SelectPart = "SELECT "
         FieldsSelected = ""
         OrderByFields = ""
-        TableName = txtTablename.Text
+        TableName = cboTables.Text
         For i As Integer = 0 To lstFields.Items.Count - 1
             ColumnName = lstFields.Items(i)
             ColumnText = dic_ColumnText(ColumnName)
@@ -399,13 +460,14 @@
         App.Visible = False
         'App.GetParms(GlobalSession, GlobalParms)
         App.PopulateForm(FinalQuery)
+        App.txtDBName.Text = cboDatabases.Text
         App.Show()
         'App.Visible = True
         stsQueryBuilderLabel1.Text = ""
         Cursor = Cursors.Default
     End Sub
 
-    Private Sub SQLQueryToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SQLQueryToolStripMenuItem.Click
+    Private Sub SQLQueryToolStripMenuItem_Click(sender As Object, e As EventArgs)
         ShowQueryForm()
 
     End Sub
@@ -519,5 +581,24 @@
         If IDX > -1 Then
             chklstOrderBY.Items.RemoveAt(IDX)
         End If
+    End Sub
+
+    Private Sub cboDatabases_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboDatabases.SelectedIndexChanged
+        '
+        Dim IDX As Integer
+        Dim DBName As String
+
+        IDX = cboDatabases.SelectedIndex
+        DBName = cboDatabases.Items(IDX)
+        BuildTableCombo(DBName)
+
+    End Sub
+
+    Private Sub cboTables_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboTables.SelectedIndexChanged
+        Dim myDAL As New SQLBuilderDAL
+        Dim dt As DataTable
+
+        dt = myDAL.GetFieldsFromTable(cboTables.Text)
+        PopulateForm(0, dt)
     End Sub
 End Class

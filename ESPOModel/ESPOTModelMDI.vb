@@ -36,7 +36,7 @@
             End If
 
         End Try
-        Dim espoConnect As New ESPOCommon1.ESPOConnect
+        Dim espoConnect As New ESPOCommon.ESPOConnect
         GlobalSession.ConnectString = espoConnect.GetConnectString(GlobalSession.CurrentMode, GlobalSession.CurrentServer)
         GlobalSession.MDIParentHandle = Me.Handle
 
