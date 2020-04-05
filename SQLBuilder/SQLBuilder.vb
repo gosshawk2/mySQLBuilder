@@ -601,4 +601,10 @@
         dt = myDAL.GetFieldsFromTable(cboTables.Text)
         PopulateForm(0, dt)
     End Sub
+
+    Private Sub btnNewConnectionString_Click(sender As Object, e As EventArgs) Handles btnNewConnectionString.Click
+        'CALL MYSQL LOGIN FORM and create new connection string - save in GLOBALS PROPERTIES:
+
+
+    End Sub
 End Class

@@ -5,6 +5,47 @@ Imports System.Data.Odbc
 Imports MySql.Data.MySqlClient
 Public Class SQLBuilderDAL
 
+    Function setupMySQLconnection(ByVal Server As String, ByVal DbaseName As String, ByVal USERNAME As String,
+                                    ByVal password As String, ByVal port As String, ByRef Message As String) As String
+        'Dim DatabaseName As String = "assetregister"
+        'Dim server As String = "localhost"
+        'Dim Port As String = "6080"
+        'Dim User as String = "root"
+        'Dim Values(,) As String
+        Dim conn As MySqlConnection
+        Dim myCMD As MySqlCommand
+        Dim myDR As MySqlDataReader
+        Dim Output As String
+        Dim ZeroDatetime As Boolean
+
+        Output = ""
+        conn = New MySqlConnection()
+        If Not conn Is Nothing Then conn.Close()
+        ZeroDatetime = True
+        'Output = String.Format("server={0}; user id={1}; password={2}; database={3}; port={4}; pooling=false; Convert Zero Datetime=True; Allow Zero Datetime=True;", Server, USERNAME, password, DbaseName, port)
+        'Output = String.Format("server={0}; user id={1}; password={2}; database={3}; port={4}; pooling=false; convert zero datetime=True", Server, USERNAME, password, DbaseName, port)
+        Output = String.Format("server={0}; user id={1}; password={2}; database={3}; Convert Zero Datetime={4}; port={5}; pooling=false", Server, USERNAME, password, DbaseName, ZeroDatetime, port)
+        conn.ConnectionString = Output
+        Try
+            conn.Open()
+            'myCMD = New MySqlCommand(SQLstr, conn)
+            'myDR = myCMD.ExecuteReader()
+            'While myDR.Read
+            'values() = myDR(fieldname).ToString()
+            'End While
+            'MsgBox("Connected")
+        Catch ex As Exception
+            'MsgBox("Error in setupMySQLconnection: " & ex.Message)
+            Message = "Error in setupMySQLconnection: " & ex.Message
+            'frmMain.logger.LogError("AR_Error_v2_7.log", Application.StartupPath, Message, "setupMySQLconnection()", frmMain.GetComputerName() & "," & frmMain.GetIPv4Address() & "," & frmMain.GetIPv6Address() & ", OPERATOR Logged in:" & frmMain.myUsername)
+            'frmMain.logger.logmessage("AR_messages_v2.7.log", Application.StartupPath, Message, "CONNECTION to DB NOT SUCCESSFUL, Server=" & Server & ",DB Name= " & DbaseName & ", Username: " & USERNAME & ", Port= " & port)
+        End Try
+        conn.Close()
+
+        setupMySQLconnection = Output
+
+    End Function
+
     Function GetHeaderList(ConnectString As String) As DataTable
         Dim cn As New OdbcConnection(ConnectString)
         Dim SQLStatement As String

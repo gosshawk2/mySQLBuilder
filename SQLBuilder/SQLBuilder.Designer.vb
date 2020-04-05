@@ -56,6 +56,7 @@ Partial Class SQLBuilder
         Me.Label4 = New System.Windows.Forms.Label()
         Me.cboDatabases = New System.Windows.Forms.ComboBox()
         Me.cboTables = New System.Windows.Forms.ComboBox()
+        Me.btnNewConnectionString = New System.Windows.Forms.Button()
         CType(Me.dgvFieldSelection, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.stsQueryBuilder.SuspendLayout()
         Me.SuspendLayout()
@@ -398,11 +399,21 @@ Partial Class SQLBuilder
         Me.cboTables.Size = New System.Drawing.Size(125, 21)
         Me.cboTables.TabIndex = 47
         '
+        'btnNewConnectionString
+        '
+        Me.btnNewConnectionString.Location = New System.Drawing.Point(398, 10)
+        Me.btnNewConnectionString.Name = "btnNewConnectionString"
+        Me.btnNewConnectionString.Size = New System.Drawing.Size(187, 23)
+        Me.btnNewConnectionString.TabIndex = 48
+        Me.btnNewConnectionString.Text = "Setup new Connection"
+        Me.btnNewConnectionString.UseVisualStyleBackColor = True
+        '
         'SQLBuilder
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1030, 702)
+        Me.Controls.Add(Me.btnNewConnectionString)
         Me.Controls.Add(Me.cboTables)
         Me.Controls.Add(Me.cboDatabases)
         Me.Controls.Add(Me.Label4)
@@ -480,4 +491,5 @@ Partial Class SQLBuilder
     Friend WithEvents Label4 As Label
     Friend WithEvents cboDatabases As ComboBox
     Friend WithEvents cboTables As ComboBox
+    Friend WithEvents btnNewConnectionString As Button
 End Class
