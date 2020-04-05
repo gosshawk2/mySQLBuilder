@@ -2,6 +2,11 @@
 
     Private Sub ViewSQL_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         '
+        dgvOutput.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
+        dgvOutput.AllowUserToOrderColumns = True
+        dgvOutput.AllowUserToResizeColumns = True
+        dgvOutput.AllowUserToAddRows = False
+        dgvOutput.AllowUserToDeleteRows = False
     End Sub
 
     Sub PopulateForm(SQLQuery As String)
